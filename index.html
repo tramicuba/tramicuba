@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
+<style>
+:root{
+  --azul:#0b3d91;
+  --azul-osc:#082c68;
+  --rojo:#c1121f;
+  --gris:#f5f5f5;
+  --gris2:#f9f9f9;
+  --texto:#333;
+}
+html{scroll-behavior:smooth;}
+*{box-sizing:border-box;}
+body {font-family: Arial, sans-serif; margin: 0; background: #fff; color: var(--texto);}
+a{color:inherit; text-decoration:none;}
+header {background: var(--azul); padding: 15px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; color: #fff;}
+header h1 {margin: 0; font-size: 1.8em;}
+nav {display: flex; flex-wrap: wrap; gap: 10px;}
+nav a {padding: 6px 10px; border-radius: 4px; transition: background .25s;}
+nav a:hover {background: var(--azul-osc);}
+.hero {background: var(--gris); text-align: center; padding: 52px 20px;}
+.hero h2 {color: var(--rojo); margin: 0 0 10px; font-size: 1.7em;}
+.section {padding: 40px 20px; max-width: 1000px; margin: auto;}
+.section h2 {color: var(--azul); margin-bottom: 20px; font-size: 1.5em;}
+.service-item {margin-bottom: 18px; padding: 14px; background: var(--gris2);
+  border-left: 5px solid var(--azul); display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; border-radius: 6px;}
+.service-item h3 {margin: 0 0 6px; color: var(--rojo);}
+.service-checkbox {transform: scale(1.25); margin-top: 4px; cursor: pointer;}
+.other-input {display: none; width: 100%; margin-top: 10px; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px;}
+.error-msg {display: none; width: 100%; color: #b00020; font-size: 0.9em; margin-top: 6px;}
+.final-button {display: inline-block; background: var(--azul); color: #fff; padding: 12px 20px; border: none; font-size: 1em; border-radius: 6px; cursor: pointer; margin-top: 16px; transition: background .25s, transform .05s;}
+.final-button:hover {background: var(--azul-osc);}
+.final-button:active {transform: translateY(1px);}
+footer {background: var(--azul); color: #fff; text-align: center; padding: 16px; margin-top: 30px;}
+.modal {display: none; position: fixed; z-index: 999; inset: 0; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px;}
+.modal.open {display: flex;}
+.modal-content {background: #fff; padding: 20px; border-radius: 12px; max-width: 560px; width: 100%; box-shadow: 0 10px 24px rgba(0,0,0,0.25);}
+.modal-header {display:flex; justify-content: space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:10px;}
+.modal-title {color: var(--azul); margin:0; font-size:1.2em;}
+.modal-close {background: transparent; border: none; font-size: 1.2em; cursor:pointer; color:#666;}
+.modal-content pre {background: #f4f4f4; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-size: 1.15em; line-height: 1.6em; font-weight: 500; color: #222; margin: 8px 0;}
+.modal-buttons {display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 10px;}
+.btn-secondary, .btn-primary {padding: 9px 14px; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; text-align: center; text-decoration:none;}
+.btn-secondary {background: #e5e5e5; color: #333;}
+.btn-primary {background: var(--azul); color: #fff;}
+.btn-secondary:hover {background: #d9d9d9;}
+.btn-primary:hover {background: var(--azul-osc);}
+</style>
+<header>
+  <h1>TramiCuba</h1>
+  <nav>
+    <a href="#inicio">Inicio</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#nosotros">Sobre Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
+  <p>Trámites fáciles, rápidos y seguros en Cuba y el exterior</p>
+</section>
+<section class="section" id="servicios">
+  <h2>Servicios que Ofertamos – Seleccione los servicios necesarios</h2>
+
+  <div class="service-item">
+    <input type="checkbox" class="service-checkbox" id="certChk">
+    <div style="flex:1">
+      <h3>Certificaciones y Legalizaciones</h3>
+      <p>Tramitamos certificaciones oficiales, legalizaciones de documentos y validaciones ante organismos públicos.</p>
+    </div>
+  </div>
+
+  <div class="service-item">
+    <input type="checkbox" class="service-checkbox" id="registroChk">
+    <div style="flex:1">
+      <h3>Registro de Documentos</h3>
+      <p>Gestionamos el registro de documentos notariales, mercantiles y personales ante las entidades correspondientes.</p>
+    </div>
+  </div>
+
+  <div class="service-item">
+    <input type="checkbox" class="service-checkbox" id="consultoriaChk">
+    <div style="flex:1">
+      <h3>Consultoría Jurídica</h3>
+      <p>Ofrecemos asesoría legal personalizada para trámites administrativos, civiles y laborales.</p>
+    </div>
+  </div>
+
+  <div class="service-item">
+    <input type="checkbox" class="service-checkbox" id="leyesChk">
+    <div style="flex:1">
+      <h3>Facilitación de Resoluciones y Leyes</h3>
+      <p>Brindamos acceso y orientación sobre resoluciones, leyes y normativas vigentes relacionadas con su trámite.</p>
+      <input type="text" id="leyesInput" class="other-input" placeholder="Indique el nombre o tema de la ley...">
+      <div class="error-msg" id="leyesError">Por favor, indique el nombre o tema de la ley.</div>
+    </div>
+  </div>
+
+  <div class="service-item">
+    <input type="checkbox" class="service-checkbox" id="otrosChk">
+    <div style="flex:1">
+      <h3>Otros servicios</h3>
+      <p>Si necesita otro tipo de trámite, descríbalo brevemente.</p>
+      <input type="text" id="otrosInput" class="other-input" placeholder="Describa el servicio que necesita...">
+      <div class="error-msg" id="otrosError">Por favor, describa el servicio que necesita.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;">
+    <button class="final-button" id="finalButton">
+      He seleccionado todos los servicios necesarios
+    </button>
+  </div>
+
+  <h2 style="margin-top:40px;">¿Tiene alguna duda o consulta?</h2>
+  <p>Puede contactarnos directamente por WhatsApp:</p>
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <a id="contacto1" class="btn-primary" target="_blank" rel="noopener">+53 5554 2964</a>
+    <a id="contacto2" class="btn-primary" target="_blank" rel="noopener">+53 5251 5251</a>
+  </div>
+</section>
+<section class="section" id="nosotros">
+  <h2>Sobre Nosotros</h2>
+  <p>En <strong>TramiCuba</strong>, ofrecemos un servicio profesional, rápido y confiable. 
+     Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo, 
+     siempre con transparencia y eficiencia.</p>
+</section>
+
+<section class="section" id="contacto">
+  <h2>Contacto</h2>
+  <p>Teléfonos / WhatsApp:</p>
+  <ul>
+    <li><a href="https://wa.me/5355542964" target="_blank">+53 5554 2964</a></li>
+    <li><a href="https://wa.me/5352515251" target="_blank">+53 5251 5251</a></li>
+  </ul>
+  <p>Correo: <a href="mailto:andyha97@nauta.cu">andyha97@nauta.cu</a></p>
+</section>
+
+<footer>
+  <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Arty</p>
+</footer>
+<!-- ===== MODALES ===== -->
+
+<!-- Modal de confirmación -->
+<div class="modal" id="modalConfirm" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitulo" class="modal-title">Confirmación de servicios</h3>
+      <button class="modal-close" id="modalClose" aria-label="Cerrar">×</button>
+    </div>
+    <p>Ha seleccionado los siguientes servicios:</p>
+    <pre id="listaServicios"></pre>
+    <p>¿Confirma que estos son los servicios necesarios?</p>
+    <div class="modal-buttons">
+      <button class="btn-secondary" id="cancelarBtn" type="button">Cancelar</button>
+      <button class="btn-primary" id="confirmarBtn" type="button">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de selección de WhatsApp -->
+<div class="modal" id="modalWhatsapp" role="dialog" aria-modal="true" aria-labelledby="modalWpTitulo">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalWpTitulo" class="modal-title">Seleccione el número de WhatsApp</h3>
+      <button class="modal-close" id="modalWpClose" aria-label="Cerrar">×</button>
+    </div>
+    <p>Elija el contacto al que desea enviar la solicitud del trámite:</p>
+    <div class="modal-buttons">
+      <a id="wp1" class="btn-primary" target="_blank" rel="noopener">+53 5554 2964</a>
+      <a id="wp2" class="btn-primary" target="_blank" rel="noopener">+53 5251 5251</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCRIPT ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const finalButton = document.getElementById('finalButton');
+  const modalConfirm = document.getElementById('modalConfirm');
+  const modalClose = document.getElementById('modalClose');
+  const cancelarBtn = document.getElementById('cancelarBtn');
+  const confirmarBtn = document.getElementById('confirmarBtn');
+  const listaServicios = document.getElementById('listaServicios');
+
+  const modalWhatsapp = document.getElementById('modalWhatsapp');
+  const modalWpClose = document.getElementById('modalWpClose');
+  const wp1 = document.getElementById('wp1');
+  const wp2 = document.getElementById('wp2');
+
+  const otrosChk = document.getElementById('otrosChk');
+  const otrosInput = document.getElementById('otrosInput');
+  const otrosError = document.getElementById('otrosError');
+
+  const leyesChk = document.getElementById('leyesChk');
+  const leyesInput = document.getElementById('leyesInput');
+  const leyesError = document.getElementById('leyesError');
+
+  const contacto1 = document.getElementById('contacto1');
+  const contacto2 = document.getElementById('contacto2');
+
+  const abrir = (m) => m.classList.add('open');
+  const cerrar = (m) => m.classList.remove('open');
+
+  if (otrosChk && otrosInput) {
+    otrosChk.addEventListener('change', () => {
+      otrosInput.style.display = otrosChk.checked ? 'block' : 'none';
+      if (!otrosChk.checked) {
+        otrosInput.value = '';
+        if (otrosError) otrosError.style.display = 'none';
+      }
+    });
+  }
+
+  if (leyesChk && leyesInput) {
+    leyesChk.addEventListener('change', () => {
+      leyesInput.style.display = leyesChk.checked ? 'block' : 'none';
+      if (!leyesChk.checked) {
+        leyesInput.value = '';
+        if (leyesError) leyesError.style.display = 'none';
+      }
+    });
+  }
+
+  function obtenerSeleccion() {
+    const items = Array.from(document.querySelectorAll('.service-item'));
+    const seleccion = [];
+
+    for (const item of items) {
+      const cb = item.querySelector('.service-checkbox');
+      if (cb && cb.checked) {
+        const titulo = (item.querySelector('h3')?.textContent || 'Servicio').trim();
+
+        if (item.contains(otrosInput)) {
+          const desc = (otrosInput.value || '').trim();
+          if (!desc) {
+            otrosInput.style.display = 'block';
+            if (otrosError) otrosError.style.display = 'block';
+            otrosInput.focus();
+            return { error: 'otros-sin-descripcion' };
+          }
+          seleccion.push(`• ${titulo}: ${desc}`);
+        } else if (item.contains(leyesInput)) {
+          const desc = (leyesInput.value || '').trim();
+          if (!desc) {
+            leyesInput.style.display = 'block';
+            if (leyesError) leyesError.style.display = 'block';
+            leyesInput.focus();
+            return { error: 'leyes-sin-descripcion' };
+          }
+          seleccion.push(`• ${titulo}: ${desc}`);
+        } else {
+          seleccion.push(`• ${titulo}`);
+        }
+      }
+    }
+    return { lista: seleccion };
+  }
+
+  if (finalButton) {
+    finalButton.addEventListener('click', () => {
+      const { lista, error } = obtenerSeleccion();
+      if (error) return;
+      if (!lista || lista.length === 0) {
+        alert('No ha seleccionado ningún servicio. Marque al menos uno.');
+        return;
+      }
+      listaServicios.textContent = lista.join('\n');
+      abrir(modalConfirm);
+    });
+  }
+
+  cancelarBtn.addEventListener('click', () => cerrar(modalConfirm));
+  modalClose.addEventListener('click', () => cerrar(modalConfirm));
+  modalConfirm.addEventListener('click', (e) => { if (e.target === modalConfirm) cerrar(modalConfirm); });
+
+  confirmarBtn.addEventListener('click', () => {
+    cerrar(modalConfirm);
+    const servicios = listaServicios.textContent || '';
+    const mensaje = encodeURIComponent(
+      `TramiCuba le escribo para solicitar los siguientes trámites:\n\n${servicios}`
+    );
+    wp1.href = `https://wa.me/5355542964?text=${mensaje}`;
+    wp2.href = `https://wa.me/5352515251?text=${mensaje}`;
+    abrir(modalWhatsapp);
+  });
+
+  modalWpClose.addEventListener('click', () => cerrar(modalWhatsapp));
+  modalWhatsapp.addEventListener('click', (e) => { if (e.target === modalWhatsapp) cerrar(modalWhatsapp); });
+
+  if (contacto1) {
+    contacto1.addEventListener('click', () => {
+      const mensaje = encodeURIComponent(`TramiCuba. Le contacto por la siguiente duda:`);
+      contacto1.href = `https://wa.me/5355542964?text=${mensaje}`;
+    });
+  }
+
+  if (contacto2) {
+    contacto2.addEventListener('click', () => {
+      const mensaje = encodeURIComponent(`TramiCuba. Le contacto por la siguiente duda:`);
+      contacto2.href = `https://wa.me/5352515251?text=${mensaje}`;
+    });
+  }
+});
+</script>
+</html>
