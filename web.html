@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
+  <style>
+    :root {
+      --azul: #0b3d91;
+      --azul-osc: #082c68;
+      --rojo: #c1121f;
+      --verde: #2e7d32;
+      --gris: #f5f5f5;
+      --gris2: #f9f9f9;
+      --texto: #333;
+      --sombra: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background: #fff;
+      color: var(--texto);
+      position: relative;
+      min-height: 100vh;
+    }
+    
+    a { 
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    a:focus, button:focus, input:focus { 
+      outline: 3px solid #98c1ff; 
+      outline-offset: 2px; 
+    }
+    
+    /* HEADER */
+    header {
+      background: var(--azul);
+      padding: 15px 5%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--sombra);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-icon {
+      font-size: 2rem;
+      color: #fff;
+    }
+    
+    header h1 { 
+      margin: 0; 
+      font-size: 1.8rem; 
+      letter-spacing: .3px; 
+      font-weight: 600;
+    }
+    
+    nav { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+    }
+    
+    nav a {
+      color: #fff; 
+      text-decoration: none; 
+      padding: 8px 15px; 
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    
+    nav a:hover, 
+    nav a.active { 
+      background: var(--azul-osc); 
+      transform: translateY(-2px);
+    }
+    
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      background: linear-gradient(rgba(11, 61, 145, 0.85), rgba(8, 44, 104, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230b3d91"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23082c68" stroke-width="2"/></svg>');
+      background-size: cover;
+      text-align: center;
+      padding: 100px 20px;
+      color: white;
+    }
+    
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: var(--rojo);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .cta-button:hover {
+      background: #a00e1a;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+    
+    /* SECTION STYLES */
+    .section {
+      padding: 80px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .section-header h2 {
+      color: var(--azul);
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--rojo);
+      border-radius: 2px;
+    }
+    
+    .section-header p {
+      max-width: 700px;
+      margin: 20px auto 0;
+      color: #555;
+      font-size: 1.1rem;
+    }
+    
+    /* SERVICES */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    
+    .service-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--sombra);
+      transition: all 0.3s ease;
+      border: 1px solid #eaeaea;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
+    
+    .service-icon {
+      height: 120px;
+      background: var(--azul);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+    }
+    
+    .service-content {
+      padding: 25px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .service-content h3 {
+      color: var(--rojo);
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    
+    .service-content p {
+      color: #555;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .service-checkbox {
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .service-checkbox input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    
+    .service-checkbox label {
+      font-weight: 500;
+      color: var(--azul);
+      cursor: pointer;
+    }
+    
+    .other-input {
+      display: none;
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .other-input:focus {
+      border-color: var(--azul);
+    }
+    
+    .error-msg {
+      display: none;
+      color: #b00020;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+    
+    /* ABOUT SECTION */
+    .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .about-text {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .about-text h2 {
+      color: var(--azul);
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .about-text p {
+      margin-bottom: 20px;
+      color: #555;
+      line-height: 1.8;
+    }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .value-item {
+      background: var(--gris);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .value-item h4 {
+      color: var(--azul);
+      margin: 15px 0 10px;
+    }
+    
+    /* CONTACT SECTION */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .contact-card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--sombra);
+      text-align: center;
+    }
+    
+    .contact-icon {
+      font-size: 2.5rem;
+      color: var(--azul);
+      margin-bottom: 20px;
+    }
+    
+    .contact-card h3 {
+      color: var(--azul);
+      margin-bottom: 15px;
+    }
+    
+    .contact-info {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    
+    .whatsapp-button {
+      display: inline-block;
+      background: #25D366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .whatsapp-button:hover {
+      background: #128C7E;
+      transform: translateY(-3px);
+    }
+    
+    /* FOOTER */
+    footer {
+      background: var(--azul);
+      color: white;
+      padding: 50px 5% 30px;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: left;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .footer-column h3::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: var(--rojo);
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.8);
+      transition: all 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+      padding-left: 5px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--rojo);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+    
+    /* MODALS */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal.open {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      animation: modalIn 0.4s ease;
+    }
+    
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-header {
+      background: var(--azul);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .modal-header h3 {
+      font-size: 1.5rem;
+    }
+    
+    .modal-body {
+      padding: 30px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    
+    .modal-footer {
+      padding: 20px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      background: var(--gris);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    
+    .btn-secondary {
+      background: #e0e0e0;
+      color: #333;
+    }
+    
+    .btn-primary {
+      background: var(--azul);
+      color: white;
+    }
+    
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+    
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      header {
+        padding: 15px;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      nav {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 15px;
+      }
+      
+      nav.show {
+        display: flex;
+      }
+      
+      .hero {
+        padding: 80px 20px;
+      }
+      
+      .hero h2 {
+        font-size: 2rem;
+      }
+      
+      .section {
+        padding: 60px 5%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero {
+        padding: 60px 15px;
+      }
+      
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      
+      .section-header h2 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">📋</div>
+      <h1>TramiCuba</h1>
+    </div>
+    
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="inicio">
+    <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
+    <p>Trámites fáciles, rápidos y seguros en Cuba y el exterior</p>
+    <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section" id="servicios">
+    <div class="section-header">
+      <h2>Nuestros Servicios</h2>
+      <p>Selecciona los servicios que necesitas para agilizar tus trámites</p>
+    </div>
+    
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">📄</div>
+        <div class="service-content">
+          <h3>Organización de Documentos Fiscales</h3>
+          <p>Clasificación, digitalización y archivo de toda tu documentación tributaria para mantener registros en orden.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-fiscales">
+            <label for="srv-fiscales">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">💰</div>
+        <div class="service-content">
+          <h3>Pago de Impuestos Fiscales</h3>
+          <p>Gestión de pagos en tiempo y forma, evitando recargos y asegurando cumplimiento normativo.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-impuestos">
+            <label for="srv-impuestos">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">📊</div>
+        <div class="service-content">
+          <h3>Fichas de Costo de Productos</h3>
+          <p>Elaboración detallada de fichas de costo para controlar la rentabilidad de tu producción.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-costos">
+            <label for="srv-costos">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">👥</div>
+        <div class="service-content">
+          <h3>Documentación de Recursos Humanos</h3>
+          <p>Gestión de contratos, control de asistencia y coordinación de chequeos pre-empleo.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-rrhh">
+            <label for="srv-rrhh">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">🔍</div>
+        <div class="service-content">
+          <h3>Solicitud de Códigos QR</h3>
+          <p>Tramitamos y facilitamos la obtención de códigos QR para tus procesos administrativos o comerciales.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-qr">
+            <label for="srv-qr">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="service-card">
+        <div class="service-icon">⚖️</div>
+        <div class="service-content">
+          <h3>Asesoría Legal</h3>
+          <p>Apoyo en gestiones legales y representación administrativa, con orientación profesional.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-legal">
+            <label for="srv-legal">Seleccionar este servicio</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <button class="cta-button" id="finalButton">Solicitar servicios seleccionados</button>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="nosotros" style="background: var(--gris);">
+    <div class="about-content">
+      <div class="about-text">
+        <h2>Sobre Nosotros</h2>
+        <p>En <strong>TramiCuba</strong>, ofrecemos un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo, siempre con transparencia y eficiencia.</p>
+        <p>Nuestro equipo está formado por profesionales con amplia experiencia en trámites legales, administrativos y fiscales, tanto en Cuba como en el exterior.</p>
+        
+        <div class="values-grid">
+          <div class="value-item">
+            <div>✅</div>
+            <h4>Profesionalismo</h4>
+            <p>Expertos en cada trámite</p>
+          </div>
+          <div class="value-item">
+            <div>⚡</div>
+            <h4>Rapidez</h4>
+            <p>Gestión eficiente</p>
+          </div>
+          <div class="value-item">
+            <div>🔒</div>
+            <h4>Seguridad</h4>
+            <p>Datos protegidos</p>
+          </div>
+          <div class="value-item">
+            <div>💯</div>
+            <h4>Transparencia</h4>
+            <p>Sin costos ocultos</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contacto">
+    <div class="section-header">
+      <h2>Contacto</h2>
+      <p>Estamos disponibles para resolver tus dudas y atender tus solicitudes</p>
+    </div>
+    
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-icon">📱</div>
+        <h3>Teléfonos / WhatsApp</h3>
+        <div class="contact-info">
+          <p>+53 5554 2964</p>
+          <p>+53 5251 5251</p>
+        </div>
+        <a href="https://wa.me/5355542964" class="whatsapp-button" target="_blank">Contactar por WhatsApp</a>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <h3>Correo Electrónico</h3>
+        <div class="contact-info">
+          <p>andyha97@nauta.cu</p>
+        </div>
+        <a href="mailto:andyha97@nauta.cu" class="cta-button">Enviar Correo</a>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">📍</div>
+        <h3>Horario de Atención</h3>
+        <div class="contact-info">
+          <p>Lunes a Viernes: 8:00 AM - 5:00 PM</p>
+          <p>Sábados: 9:00 AM - 1:00 PM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>TramiCuba</h3>
+        <p>Especialistas en trámites legales y administrativos para facilitar tus gestiones en Cuba y el exterior.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">f</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">ig</a>
+          <a href="#" class="social-link">tw</a>
+        </div>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Enlaces Rápidos</h3>
+        <ul class="footer-links">
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Sobre Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Servicios</h3>
+        <ul class="footer-links">
+          <li><a href="#">Documentos Fiscales</a></li>
+          <li><a href="#">Pago de Impuestos</a></li>
+          <li><a href="#">Gestión Legal</a></li>
+          <li><a href="#">Recursos Humanos</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Contacto</h3>
+        <ul class="footer-links">
+          <li>+53 5554 2964</li>
+          <li>+53 5251 5251</li>
+          <li>andyha97@nauta.cu</li>
+          <li>La Habana, Cuba</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Arty</p>
+    </div>
+  </footer>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal" id="modalConfirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Confirmación de Servicios</h3>
+      </div>
+      <div class="modal-body">
+        <p>Has seleccionado los siguientes servicios:</p>
+        <ul id="listaServicios" style="margin: 20px 0; padding-left: 20px;">
+          <li>Organización de Documentos Fiscales</li>
+          <li>Pago de Impuestos Fiscales</li>
+        </ul>
+        <p>¿Deseas continuar con la solicitud de estos servicios?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="cancelarBtn">Cancelar</button>
+        <button class="btn btn-primary" id="confirmarBtn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de WhatsApp -->
+  <div class="modal" id="modalWhatsapp">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Contactar por WhatsApp</h3>
+      </div>
+      <div class="modal-body">
+        <p>Selecciona el número por el que prefieres contactarnos:</p>
+        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+          <a href="https://wa.me/5355542964" class="whatsapp-button" target="_blank" style="text-align: center;">+53 5554 2964</a>
+          <a href="https://wa.me/5352515251" class="whatsapp-button" target="_blank" style="text-align: center;">+53 5251 5251</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="wpCloseBtn">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu toggle
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const nav = document.querySelector('nav');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        nav.classList.toggle('show');
+      });
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            window.scrollTo({
+              top: target.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            
+            // Close mobile menu if open
+            nav.classList.remove('show');
+          }
+        });
+      });
+      
+      // Modal functionality
+      const finalButton = document.getElementById('finalButton');
+      const modalConfirm = document.getElementById('modalConfirm');
+      const modalWhatsapp = document.getElementById('modalWhatsapp');
+      const cancelarBtn = document.getElementById('cancelarBtn');
+      const confirmarBtn = document.getElementById('confirmarBtn');
+      const wpCloseBtn = document.getElementById('wpCloseBtn');
+      
+      finalButton.addEventListener('click', function() {
+        modalConfirm.classList.add('open');
+      });
+      
+      cancelarBtn.addEventListener('click', function() {
+        modalConfirm.classList.remove('open');
+      });
+      
+      confirmarBtn.addEventListener('click', function() {
+        modalConfirm.classList.remove('open');
+        modalWhatsapp.classList.add('open');
+      });
+      
+      wpCloseBtn.addEventListener('click', function() {
+        modalWhatsapp.classList.remove('open');
+      });
+      
+      // Close modals when clicking outside
+      window.addEventListener('click', function(e) {
+        if (e.target === modalConfirm) {
+          modalConfirm.classList.remove('open');
+        }
+        if (e.target === modalWhatsapp) {
+          modalWhatsapp.classList.remove('open');
+        }
+      });
+      
+      // Service selection functionality
+      const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
+      serviceCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const card = this.closest('.service-card');
+          if (this.checked) {
+            card.style.boxShadow = '0 10px 25px rgba(11, 61, 145, 0.3)';
+            card.style.border = '2px solid var(--azul)';
+          } else {
+            card.style.boxShadow = 'var(--sombra)';
+            card.style.border = '1px solid #eaeaea';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
