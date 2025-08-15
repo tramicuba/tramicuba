@@ -278,6 +278,7 @@
       border-radius: 8px;
       font-size: 1rem;
       transition: border-color 0.3s;
+      resize: vertical;
     }
     
     .other-input:focus {
@@ -699,6 +700,21 @@
           </div>
         </div>
       </div>
+      
+      <!-- Nuevo servicio: Otros -->
+      <div class="service-card">
+        <div class="service-icon">➕</div>
+        <div class="service-content">
+          <h3>Otros Servicios</h3>
+          <p>¿Necesitas algo que no está en la lista? Descríbelo aquí y lo gestionaremos para ti.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-otros">
+            <label for="srv-otros">Seleccionar este servicio</label>
+          </div>
+          <textarea class="other-input" id="otros-desc" placeholder="Describe el servicio que necesitas..." rows="3"></textarea>
+          <div class="error-msg" id="otros-error">Por favor, describe el servicio que necesitas.</div>
+        </div>
+      </div>
     </div>
     
     <div style="text-align: center; margin-top: 40px;">
@@ -809,6 +825,7 @@
           <li><a href="#">Pago de Impuestos</a></li>
           <li><a href="#">Gestión Legal</a></li>
           <li><a href="#">Recursos Humanos</a></li>
+          <li><a href="#">Otros Servicios</a></li>
         </ul>
       </div>
       
@@ -909,10 +926,40 @@
       const noServicesMessage = document.getElementById('noServicesMessage');
       const confirmationText = document.getElementById('confirmationText');
       
+      // Nuevos elementos para el servicio "Otros"
+      const otrosCheckbox = document.getElementById('srv-otros');
+      const otrosDesc = document.getElementById('otros-desc');
+      const otrosError = document.getElementById('otros-error');
+      
+      // Mostrar/ocultar campo de texto para servicio "Otros"
+      otrosCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+          otrosDesc.style.display = 'block';
+          otrosDesc.focus();
+        } else {
+          otrosDesc.style.display = 'none';
+          otrosError.style.display = 'none';
+        }
+      });
+      
       finalButton.addEventListener('click', function() {
         // Obtener todos los servicios seleccionados
         const selectedServices = [];
         const serviceCards = document.querySelectorAll('.service-card');
+        let otrosValid = true;
+        
+        // Validar servicio "Otros"
+        if (otrosCheckbox.checked) {
+          if (otrosDesc.value.trim() === '') {
+            otrosValid = false;
+            otrosError.style.display = 'block';
+            otrosDesc.focus();
+          } else {
+            otrosError.style.display = 'none';
+          }
+        } else {
+          otrosError.style.display = 'none';
+        }
         
         serviceCards.forEach(card => {
           const checkbox = card.querySelector('input[type="checkbox"]');
@@ -925,11 +972,17 @@
         // Actualizar la lista en el modal
         listaServicios.innerHTML = '';
         
-        if (selectedServices.length > 0) {
+        if (selectedServices.length > 0 && otrosValid) {
           // Mostrar los servicios seleccionados
           selectedServices.forEach(service => {
             const li = document.createElement('li');
             li.textContent = service;
+            
+            // Agregar descripción si es el servicio "Otros"
+            if (service === "Otros Servicios") {
+              li.textContent = `Otros: ${otrosDesc.value}`;
+            }
+            
             listaServicios.appendChild(li);
           });
           
@@ -941,10 +994,12 @@
           // Abrir el modal
           modalConfirm.classList.add('open');
         } else {
-          // No hay servicios seleccionados
-          noServicesMessage.style.display = 'block';
-          confirmationText.style.display = 'none';
-          confirmarBtn.disabled = true;
+          // No hay servicios seleccionados o error en "Otros"
+          if (selectedServices.length === 0) {
+            noServicesMessage.style.display = 'block';
+          }
+          confirmationText.style.display = selectedServices.length > 0 ? 'block' : 'none';
+          confirmarBtn.disabled = false;
           modalConfirm.classList.add('open');
         }
       });
