@@ -837,10 +837,12 @@
       <div class="modal-body">
         <p>Has seleccionado los siguientes servicios:</p>
         <ul id="listaServicios" style="margin: 20px 0; padding-left: 20px;">
-          <li>Organización de Documentos Fiscales</li>
-          <li>Pago de Impuestos Fiscales</li>
+          <!-- La lista se generará dinámicamente -->
         </ul>
-        <p>¿Deseas continuar con la solicitud de estos servicios?</p>
+        <p id="noServicesMessage" style="display: none; color: #c1121f; font-weight: 500;">
+          Por favor, selecciona al menos un servicio antes de continuar.
+        </p>
+        <p id="confirmationText">¿Deseas continuar con la solicitud de estos servicios?</p>
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" id="cancelarBtn">Cancelar</button>
@@ -903,9 +905,48 @@
       const cancelarBtn = document.getElementById('cancelarBtn');
       const confirmarBtn = document.getElementById('confirmarBtn');
       const wpCloseBtn = document.getElementById('wpCloseBtn');
+      const listaServicios = document.getElementById('listaServicios');
+      const noServicesMessage = document.getElementById('noServicesMessage');
+      const confirmationText = document.getElementById('confirmationText');
       
       finalButton.addEventListener('click', function() {
-        modalConfirm.classList.add('open');
+        // Obtener todos los servicios seleccionados
+        const selectedServices = [];
+        const serviceCards = document.querySelectorAll('.service-card');
+        
+        serviceCards.forEach(card => {
+          const checkbox = card.querySelector('input[type="checkbox"]');
+          if (checkbox.checked) {
+            const serviceName = card.querySelector('.service-content h3').textContent;
+            selectedServices.push(serviceName);
+          }
+        });
+        
+        // Actualizar la lista en el modal
+        listaServicios.innerHTML = '';
+        
+        if (selectedServices.length > 0) {
+          // Mostrar los servicios seleccionados
+          selectedServices.forEach(service => {
+            const li = document.createElement('li');
+            li.textContent = service;
+            listaServicios.appendChild(li);
+          });
+          
+          // Mostrar elementos apropiados
+          noServicesMessage.style.display = 'none';
+          confirmationText.style.display = 'block';
+          confirmarBtn.disabled = false;
+          
+          // Abrir el modal
+          modalConfirm.classList.add('open');
+        } else {
+          // No hay servicios seleccionados
+          noServicesMessage.style.display = 'block';
+          confirmationText.style.display = 'none';
+          confirmarBtn.disabled = true;
+          modalConfirm.classList.add('open');
+        }
       });
       
       cancelarBtn.addEventListener('click', function() {
