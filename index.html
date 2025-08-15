@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
       --azul: #0b3d91;
@@ -14,6 +15,7 @@
       --gris2: #f9f9f9;
       --texto: #333;
       --sombra: 0 4px 12px rgba(0,0,0,0.08);
+      --sombra-hover: 0 12px 30px rgba(11, 61, 145, 0.25);
     }
     
     * {
@@ -201,15 +203,19 @@
       border-radius: 12px;
       overflow: hidden;
       box-shadow: var(--sombra);
-      transition: all 0.3s ease;
-      border: 1px solid #eaeaea;
-      display: flex;
-      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      z-index: 1;
+      transform: translateY(0) scale(1);
+      border: 2px solid transparent;
     }
     
+    /* EFECTO DE MOVIMIENTO AL PASAR EL MOUSE */
     .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: var(--sombra-hover);
+      border-color: rgba(11, 61, 145, 0.1);
+      z-index: 2;
     }
     
     .service-icon {
@@ -220,11 +226,15 @@
       justify-content: center;
       font-size: 3rem;
       color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .service-card:hover .service-icon {
+      background: var(--rojo);
     }
     
     .service-content {
       padding: 25px;
-      flex-grow: 1;
       display: flex;
       flex-direction: column;
     }
@@ -238,7 +248,6 @@
     .service-content p {
       color: #555;
       margin-bottom: 20px;
-      flex-grow: 1;
     }
     
     .service-checkbox {
@@ -607,7 +616,7 @@
   <!-- Hero Section -->
   <section class="hero" id="inicio">
     <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
-    <p>Trámites fáciles, rápidos y seguros en Cuba y el exterior</p>
+    <p>Trámites fáciles, rápidos y seguros en Cuba</p>
     <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
   </section>
 
@@ -703,7 +712,7 @@
       <div class="about-text">
         <h2>Sobre Nosotros</h2>
         <p>En <strong>TramiCuba</strong>, ofrecemos un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo, siempre con transparencia y eficiencia.</p>
-        <p>Nuestro equipo está formado por profesionales con amplia experiencia en trámites legales, administrativos y fiscales, tanto en Cuba como en el exterior.</p>
+        <p>Nuestro equipo está formado por profesionales con amplia experiencia en trámites legales, administrativos y fiscales en Cuba.</p>
         
         <div class="values-grid">
           <div class="value-item">
@@ -774,7 +783,7 @@
     <div class="footer-content">
       <div class="footer-column">
         <h3>TramiCuba</h3>
-        <p>Especialistas en trámites legales y administrativos para facilitar tus gestiones en Cuba y el exterior.</p>
+        <p>Especialistas en trámites legales y administrativos para facilitar tus gestiones en Cuba.</p>
         <div class="social-links">
           <a href="#" class="social-link">f</a>
           <a href="#" class="social-link">in</a>
