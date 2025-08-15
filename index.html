@@ -350,12 +350,24 @@
       padding: 30px;
       box-shadow: var(--sombra);
       text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
     }
     
     .contact-icon {
       font-size: 2.5rem;
       color: var(--azul);
       margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .contact-card:hover .contact-icon {
+      color: var(--rojo);
+      transform: scale(1.1);
     }
     
     .contact-card h3 {
@@ -382,6 +394,85 @@
     .whatsapp-button:hover {
       background: #128C7E;
       transform: translateY(-3px);
+    }
+    
+    /* Reloj animado */
+    .clock-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 20px;
+      background: white;
+      border-radius: 50%;
+      border: 4px solid var(--azul);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .clock-face {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      background: var(--rojo);
+      border-radius: 50%;
+      z-index: 10;
+    }
+    
+    .clock-hour {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 4px;
+      height: 30px;
+      background: var(--azul);
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(0deg);
+      border-radius: 4px;
+    }
+    
+    .clock-minute {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 3px;
+      height: 40px;
+      background: var(--azul);
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(90deg);
+      border-radius: 4px;
+    }
+    
+    .clock-second {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 45px;
+      background: var(--rojo);
+      transform-origin: bottom center;
+      transform: translate(-50%, -100%) rotate(180deg);
+      border-radius: 4px;
+      z-index: 5;
+    }
+    
+    .twenty-four-hours {
+      display: inline-block;
+      background: var(--azul);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 10px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
     }
     
     /* FOOTER */
@@ -579,6 +670,23 @@
       .section {
         padding: 60px 5%;
       }
+      
+      .clock-container {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .clock-hour {
+        height: 25px;
+      }
+      
+      .clock-minute {
+        height: 32px;
+      }
+      
+      .clock-second {
+        height: 36px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -592,6 +700,11 @@
       
       .section-header h2 {
         font-size: 1.8rem;
+      }
+      
+      .clock-container {
+        width: 70px;
+        height: 70px;
       }
     }
   </style>
@@ -784,11 +897,16 @@
       </div>
       
       <div class="contact-card">
-        <div class="contact-icon">📍</div>
+        <div class="clock-container">
+          <div class="clock-face"></div>
+          <div class="clock-hour" id="clock-hour"></div>
+          <div class="clock-minute" id="clock-minute"></div>
+          <div class="clock-second" id="clock-second"></div>
+        </div>
         <h3>Horario de Atención</h3>
         <div class="contact-info">
-          <p>Lunes a Viernes: 8:00 AM - 5:00 PM</p>
-          <p>Sábados: 9:00 AM - 1:00 PM</p>
+          <p>24 horas, los 7 días de la semana</p>
+          <span class="twenty-four-hours">Siempre disponibles</span>
         </div>
       </div>
     </div>
@@ -1041,6 +1159,26 @@
           }
         });
       });
+      
+      // Funcionalidad del reloj
+      function updateClock() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        
+        const hourDeg = (hours % 12) * 30 + minutes * 0.5;
+        const minuteDeg = minutes * 6;
+        const secondDeg = seconds * 6;
+        
+        document.getElementById('clock-hour').style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+        document.getElementById('clock-minute').style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+        document.getElementById('clock-second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+      }
+      
+      // Iniciar reloj y actualizar cada segundo
+      updateClock();
+      setInterval(updateClock, 1000);
     });
   </script>
 </body>
