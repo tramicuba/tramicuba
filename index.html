@@ -212,7 +212,7 @@
       position: relative;
       z-index: 1;
       transform: translateY(0) scale(1);
-      border: 2px solid transparent;
+      border: 2px solid transparent; /* Borde constante de 2px */
     }
     
     /* EFECTO DE MOVIMIENTO AL PASAR EL MOUSE */
@@ -936,7 +936,6 @@
         <h3>TramiCuba</h3>
         <p>Especialistas en trámites legales y administrativos para facilitar tus gestiones en Cuba.</p>
         <div class="social-links">
-          <!-- Íconos de redes sociales corregidos con Font Awesome y etiquetas ARIA -->
           <a href="#" class="social-link" aria-label="Facebook">
             <i class="fab fa-facebook-f"></i>
           </a>
@@ -1172,17 +1171,19 @@
         }
       });
       
-      // Service selection functionality
+      // Service selection functionality - CORRECCIÓN DEL PROBLEMA 3
       const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
       serviceCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function() {
           const card = this.closest('.service-card');
           if (this.checked) {
-            card.style.boxShadow = '0 10px 25px rgba(11, 61, 145, 0.3)';
+            // Mantenemos el mismo grosor de borde (2px) pero cambiamos el color
             card.style.border = '2px solid var(--azul)';
+            card.style.boxShadow = '0 10px 25px rgba(11, 61, 145, 0.3)';
           } else {
+            // Mantenemos el mismo grosor de borde (2px) con color transparente
+            card.style.border = '2px solid transparent';
             card.style.boxShadow = 'var(--sombra)';
-            card.style.border = '1px solid #eaeaea';
           }
         });
       });
