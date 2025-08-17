@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
-  <!-- CDN Font Awesome corregido con HTTPS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -436,6 +435,7 @@
       transform-origin: bottom center;
       transform: translate(-50%, -100%) rotate(0deg);
       border-radius: 4px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .clock-minute {
@@ -448,6 +448,7 @@
       transform-origin: bottom center;
       transform: translate(-50%, -100%) rotate(90deg);
       border-radius: 4px;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .clock-second {
@@ -461,6 +462,7 @@
       transform: translate(-50%, -100%) rotate(180deg);
       border-radius: 4px;
       z-index: 5;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .twenty-four-hours {
@@ -719,7 +721,8 @@
   <!-- Header -->
   <header>
     <div class="logo-container">
-      <a href="https://www.google.com/maps?q=23.074666,-82.425217" target="_blank" class="logo-link">
+      <!-- CORRECCIÓN: Enlace del logo ahora apunta a #inicio -->
+      <a href="#inicio" class="logo-link">
         <div class="logo-icon">📋</div>
       </a>
       <h1>TramiCuba</h1>
@@ -1189,7 +1192,10 @@
         });
       });
       
-      // Funcionalidad del reloj
+      // SOLUCIÓN AL PROBLEMA 7: Optimización del reloj con requestAnimationFrame
+      let lastUpdateTime = 0;
+      let animationFrameId = null;
+      
       function updateClock() {
         const now = new Date();
         const hours = now.getHours();
@@ -1205,9 +1211,93 @@
         document.getElementById('clock-second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
       }
       
-      // Iniciar reloj y actualizar cada segundo
-      updateClock();
-      setInterval(updateClock, 1000);
+      function animateClock(timestamp) {
+        if (!lastUpdateTime) lastUpdateTime = timestamp;
+        
+        const elapsed = timestamp - lastUpdateTime;
+        
+        // Actualizar solo si ha pasado al menos 1 segundo
+        if (elapsed >= 1000) {
+          updateClock();
+          lastUpdateTime = timestamp;
+        }
+        
+        // Continuar la animación solo si el reloj es visible
+        const clockCard = document.querySelector('.contact-card:nth-child(4)');
+        if (isElementInViewport(clockCard)) {
+          animationFrameId = requestAnimationFrame(animateClock);
+        }
+      }
+      
+      // Función para verificar si un elemento es visible en el viewport
+      function isElementInViewport(el) {
+        if (!el) return false;
+        
+        const rect = el.getBoundingClientRect();
+        return (
+          rect.top >= 0 &&
+          rect.left >= 0 &&
+          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+      }
+      
+      // Iniciar reloj cuando la sección de contacto es visible
+      const contactSection = document.getElementById('contacto');
+      
+      function checkClockVisibility() {
+        const clockCard = document.querySelector('.contact-card:nth-child(4)');
+        
+        if (isElementInViewport(clockCard)) {
+          // Iniciar animación si no está activa
+          if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(animateClock);
+          }
+        } else {
+          // Detener animación si está activa
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      }
+      
+      // Observador de intersección para optimizar aún más
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            if (!animationFrameId) {
+              updateClock(); // Actualizar inmediatamente
+              animationFrameId = requestAnimationFrame(animateClock);
+            }
+          } else {
+            if (animationFrameId) {
+              cancelAnimationFrame(animationFrameId);
+              animationFrameId = null;
+            }
+          }
+        });
+      });
+      
+      // Observar el contenedor del reloj
+      const clockContainer = document.querySelector('.clock-container');
+      if (clockContainer) {
+        observer.observe(clockContainer);
+      }
+      
+      // Iniciar el reloj si está visible al cargar la página
+      window.addEventListener('load', function() {
+        const clockCard = document.querySelector('.contact-card:nth-child(4)');
+        if (isElementInViewport(clockCard)) {
+          updateClock();
+          animationFrameId = requestAnimationFrame(animateClock);
+        }
+      });
+      
+      // Verificar visibilidad al desplazarse
+      window.addEventListener('scroll', function() {
+        checkClockVisibility();
+      });
     });
   </script>
 </body>
