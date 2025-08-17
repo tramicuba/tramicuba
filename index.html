@@ -394,11 +394,56 @@
       border-radius: 50px;
       font-weight: 500;
       transition: all 0.3s ease;
+      position: relative;
     }
     
     .whatsapp-button:hover {
       background: #128C7E;
       transform: translateY(-3px);
+    }
+    
+    /* Nuevo estilo para el selector de WhatsApp */
+    .whatsapp-selector {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      z-index: 10;
+      display: none;
+      margin-top: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .whatsapp-option {
+      padding: 12px;
+      display: block;
+      text-align: center;
+      color: #333;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .whatsapp-option:last-child {
+      border-bottom: none;
+    }
+    
+    .whatsapp-option:hover {
+      background: #f5f5f5;
+      color: var(--azul);
+    }
+    
+    .whatsapp-option i {
+      margin-right: 8px;
+      color: #25D366;
     }
     
     /* Reloj animado */
@@ -721,7 +766,6 @@
   <!-- Header -->
   <header>
     <div class="logo-container">
-      <!-- CORRECCIÓN: Enlace del logo ahora apunta a #inicio -->
       <a href="#inicio" class="logo-link">
         <div class="logo-icon">📋</div>
       </a>
@@ -895,7 +939,20 @@
           <p>+53 5554 2964</p>
           <p>+53 5251 5251</p>
         </div>
-        <a href="https://wa.me/5355542964" class="whatsapp-button" target="_blank">Contactar por WhatsApp</a>
+        <!-- Menú de selección de WhatsApp -->
+        <div style="position: relative;">
+          <button class="whatsapp-button" id="whatsappBtn">
+            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
+          </button>
+          <div class="whatsapp-selector" id="whatsappSelector">
+            <a href="https://wa.me/5355542964" class="whatsapp-option" target="_blank">
+              <i class="fab fa-whatsapp"></i> +53 5554 2964
+            </a>
+            <a href="https://wa.me/5352515251" class="whatsapp-option" target="_blank">
+              <i class="fab fa-whatsapp"></i> +53 5251 5251
+            </a>
+          </div>
+        </div>
       </div>
       
       <div class="contact-card">
@@ -1297,6 +1354,31 @@
       // Verificar visibilidad al desplazarse
       window.addEventListener('scroll', function() {
         checkClockVisibility();
+      });
+      
+      // SOLUCIÓN PARA EL PROBLEMA 9: Menú de selección de WhatsApp
+      const whatsappBtn = document.getElementById('whatsappBtn');
+      const whatsappSelector = document.getElementById('whatsappSelector');
+      
+      // Mostrar/ocultar selector de WhatsApp
+      whatsappBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        whatsappSelector.style.display = 
+          whatsappSelector.style.display === 'block' ? 'none' : 'block';
+      });
+      
+      // Ocultar selector al hacer clic fuera
+      document.addEventListener('click', function(e) {
+        if (!whatsappSelector.contains(e.target) && e.target !== whatsappBtn) {
+          whatsappSelector.style.display = 'none';
+        }
+      });
+      
+      // Ocultar selector al seleccionar una opción
+      document.querySelectorAll('.whatsapp-option').forEach(option => {
+        option.addEventListener('click', function() {
+          whatsappSelector.style.display = 'none';
+        });
       });
     });
   </script>
