@@ -14,10 +14,9 @@
       --rojo: #c1121f;
       --verde: #2e7d32;
       --gris: #f5f5f5;
-      --gris2: #f9f9f9;
       --texto: #333;
       --sombra: 0 4px 12px rgba(0,0,0,0.08);
-      --sombra-hover: 0 12px 30px rgba(11, 61, 145, 0.25); /* 1. Variable añadida */
+      --sombra-hover: 0 12px 30px rgba(11, 61, 145, 0.25);
     }
     
     * {
@@ -117,11 +116,13 @@
       color: white;
       font-size: 1.5rem;
       cursor: pointer;
+      padding: 10px;
     }
     
     /* HERO SECTION */
     .hero {
-      background: linear-gradient(rgba(11, 61, 145, 0.85), rgba(8, 44, 104, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230b3d91"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23082c68" stroke-width="2"/></svg>');
+      background: linear-gradient(rgba(11, 61, 145, 0.85), rgba(8, 44, 104, 0.9)), 
+                  url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230b3d91"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%23082c68" stroke-width="2"/></svg>');
       background-size: cover;
       text-align: center;
       padding: 100px 20px;
@@ -150,6 +151,8 @@
       font-size: 1.1rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border: none;
+      cursor: pointer;
     }
     
     .cta-button:hover {
@@ -215,11 +218,10 @@
       z-index: 1;
       transform: translateY(0) scale(1);
       border: 2px solid transparent;
-      will-change: transform, box-shadow; /* 5. Optimización de animaciones */
-      backface-visibility: hidden; /* 5. Optimización de animaciones */
+      will-change: transform, box-shadow;
+      backface-visibility: hidden;
     }
     
-    /* EFECTO DE MOVIMIENTO AL PASAR EL MOUSE */
     .service-card:hover {
       transform: translateY(-15px) scale(1.03);
       box-shadow: var(--sombra-hover);
@@ -264,6 +266,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
     }
     
     .service-checkbox input {
@@ -276,6 +279,7 @@
       font-weight: 500;
       color: var(--azul);
       cursor: pointer;
+      flex: 1;
     }
     
     .other-input {
@@ -307,7 +311,6 @@
       flex-wrap: wrap;
       gap: 40px;
       align-items: center;
-      overflow-x: hidden; /* 6. Layout roto en móviles */
     }
     
     .about-text {
@@ -400,6 +403,8 @@
       font-weight: 500;
       transition: all 0.3s ease;
       position: relative;
+      border: none;
+      cursor: pointer;
     }
     
     .whatsapp-button:hover {
@@ -407,7 +412,6 @@
       transform: translateY(-3px);
     }
     
-    /* Nuevo estilo para el selector de WhatsApp */
     .whatsapp-selector {
       position: absolute;
       top: 100%;
@@ -435,6 +439,7 @@
       color: #333;
       transition: all 0.2s ease;
       border-bottom: 1px solid #f0f0f0;
+      text-decoration: none;
     }
     
     .whatsapp-option:last-child {
@@ -451,7 +456,7 @@
       color: #25D366;
     }
     
-    /* Reloj animado */
+    /* Reloj simplificado */
     .clock-container {
       position: relative;
       width: 100px;
@@ -485,7 +490,6 @@
       transform-origin: bottom center;
       transform: translate(-50%, -100%) rotate(0deg);
       border-radius: 4px;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .clock-minute {
@@ -498,21 +502,6 @@
       transform-origin: bottom center;
       transform: translate(-50%, -100%) rotate(90deg);
       border-radius: 4px;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .clock-second {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 2px;
-      height: 45px;
-      background: var(--rojo);
-      transform-origin: bottom center;
-      transform: translate(-50%, -100%) rotate(180deg);
-      border-radius: 4px;
-      z-index: 5;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .twenty-four-hours {
@@ -638,7 +627,7 @@
     }
     
     .footer-links a {
-      color: rgba(255,255,255,0.8);
+      color: rgba(255,255,255,0.95); /* Mejor contraste */
       transition: all 0.3s ease;
     }
     
@@ -758,6 +747,21 @@
       transform: translateY(-2px);
     }
     
+    .loading-spinner {
+      display: none;
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
     /* RESPONSIVE DESIGN */
     @media (max-width: 768px) {
       header {
@@ -804,8 +808,17 @@
         height: 32px;
       }
       
-      .clock-second {
-        height: 36px;
+      .footer-content {
+        text-align: center;
+      }
+      
+      .footer-column h3::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .social-links {
+        justify-content: center;
       }
     }
     
@@ -834,7 +847,7 @@
   <header>
     <div class="logo-container">
       <a href="#inicio" class="logo-link">
-        <div class="logo-icon">📋</div>
+        <div class="logo-icon" aria-hidden="true">📋</div>
       </a>
       <h1>TramiCuba</h1>
     </div>
@@ -846,216 +859,221 @@
       <a href="#contacto">Contacto</a>
     </nav>
     
-    <button class="mobile-menu-btn" aria-expanded="false">☰</button> <!-- 8. Accesibilidad -->
+    <button class="mobile-menu-btn" aria-expanded="false" aria-label="Menú principal">☰</button>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" id="inicio">
-    <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
-    <p>Trámites fáciles, rápidos y seguros en Cuba</p>
-    <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
-  </section>
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+      <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
+      <p>Trámites fáciles, rápidos y seguros en Cuba</p>
+      <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
+    </section>
 
-  <!-- Services Section -->
-  <section class="section" id="servicios">
-    <div class="section-header">
-      <h2>Nuestros Servicios</h2>
-      <p>Selecciona los servicios que necesitas para agilizar tus trámites</p>
-    </div>
-    
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">📄</div>
-        <div class="service-content">
-          <h3>Organización de Documentos Fiscales</h3>
-          <p>Clasificación, digitalización y archivo de toda tu documentación tributaria para mantener registros en orden.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-fiscales">
-            <label for="srv-fiscales">Seleccionar este servicio</label>
-          </div>
-        </div>
+    <!-- Services Section -->
+    <section class="section" id="servicios">
+      <div class="section-header">
+        <h2>Nuestros Servicios</h2>
+        <p>Selecciona los servicios que necesitas para agilizar tus trámites</p>
       </div>
       
-      <div class="service-card">
-        <div class="service-icon">💰</div>
-        <div class="service-content">
-          <h3>Pago de Impuestos Fiscales</h3>
-          <p>Gestión de pagos en tiempo y forma, evitando recargos y asegurando cumplimiento normativo.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-impuestos">
-            <label for="srv-impuestos">Seleccionar este servicio</label>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">📄</div>
+          <div class="service-content">
+            <h3>Organización de Documentos Fiscales</h3>
+            <p>Clasificación, digitalización y archivo de toda tu documentación tributaria para mantener registros en orden.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-fiscales">
+              <label for="srv-fiscales">Seleccionar este servicio</label>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="service-card">
-        <div class="service-icon">📊</div>
-        <div class="service-content">
-          <h3>Fichas de Costo de Productos</h3>
-          <p>Elaboración detallada de fichas de costo para controlar la rentabilidad de tu producción.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-costos">
-            <label for="srv-costos">Seleccionar este servicio</label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="service-card">
-        <div class="service-icon">👥</div>
-        <div class="service-content">
-          <h3>Documentación de Recursos Humanos</h3>
-          <p>Gestión de contratos, control de asistencia y coordinación de chequeos pre-empleo.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-rrhh">
-            <label for="srv-rrhh">Seleccionar este servicio</label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="service-card">
-        <div class="service-icon">🔍</div>
-        <div class="service-content">
-          <h3>Solicitud de Códigos QR</h3>
-          <p>Tramitamos y facilitamos la obtención de códigos QR para tus procesos administrativos o comerciales.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-qr">
-            <label for="srv-qr">Seleccionar este servicio</label>
-          </div>
-        </div>
-      </div>
-      
-      <div class="service-card">
-        <div class="service-icon">⚖️</div>
-        <div class="service-content">
-          <h3>Asesoría Legal</h3>
-          <p>Apoyo en gestiones legales y representación administrativa, con orientación profesional.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-legal">
-            <label for="srv-legal">Seleccionar este servicio</label>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Nuevo servicio: Otros -->
-      <div class="service-card">
-        <div class="service-icon">➕</div>
-        <div class="service-content">
-          <h3>Otros Servicios</h3>
-          <p>¿Necesitas algo que no está en la lista? Descríbelo aquí y lo gestionaremos para ti.</p>
-          <div class="service-checkbox">
-            <input type="checkbox" id="srv-otros">
-            <label for="srv-otros">Seleccionar este servicio</label>
-          </div>
-          <textarea class="other-input" id="otros-desc" placeholder="Describe el servicio que necesitas..." rows="3"></textarea>
-          <div class="error-msg" id="otros-error">Por favor, describe el servicio que necesitas.</div>
-        </div>
-      </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 40px;">
-      <button class="cta-button" id="finalButton">Solicitar servicios seleccionados</button>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section class="section" id="nosotros" style="background: var(--gris);">
-    <div class="about-content">
-      <div class="about-text">
-        <h2>Sobre Nosotros</h2>
-        <p>En <strong>TramiCuba</strong>, ofrecemos un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo, siempre con transparencia y eficiencia.</p>
-        <p>Nuestro equipo está formado por profesionales con amplia experiencia en trámites legales, administrativos y fiscales en Cuba.</p>
         
-        <div class="values-grid">
-          <div class="value-item">
-            <div>✅</div>
-            <h4>Profesionalismo</h4>
-            <p>Expertos en cada trámite</p>
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">💰</div>
+          <div class="service-content">
+            <h3>Pago de Impuestos Fiscales</h3>
+            <p>Gestión de pagos en tiempo y forma, evitando recargos y asegurando cumplimiento normativo.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-impuestos">
+              <label for="srv-impuestos">Seleccionar este servicio</label>
+            </div>
           </div>
-          <div class="value-item">
-            <div>⚡</div>
-            <h4>Rapidez</h4>
-            <p>Gestión eficiente</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">📊</div>
+          <div class="service-content">
+            <h3>Fichas de Costo de Productos</h3>
+            <p>Elaboración detallada de fichas de costo para controlar la rentabilidad de tu producción.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-costos">
+              <label for="srv-costos">Seleccionar este servicio</label>
+            </div>
           </div>
-          <div class="value-item">
-            <div>🔒</div>
-            <h4>Seguridad</h4>
-            <p>Datos protegidos</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">👥</div>
+          <div class="service-content">
+            <h3>Documentación de Recursos Humanos</h3>
+            <p>Gestión de contratos, control de asistencia y coordinación de chequeos pre-empleo.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-rrhh">
+              <label for="srv-rrhh">Seleccionar este servicio</label>
+            </div>
           </div>
-          <div class="value-item">
-            <div>💯</div>
-            <h4>Transparencia</h4>
-            <p>Sin costos ocultos</p>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">🔍</div>
+          <div class="service-content">
+            <h3>Solicitud de Códigos QR</h3>
+            <p>Tramitamos y facilitamos la obtención de códigos QR para tus procesos administrativos o comerciales.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-qr">
+              <label for="srv-qr">Seleccionar este servicio</label>
+            </div>
+          </div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">⚖️</div>
+          <div class="service-content">
+            <h3>Asesoría Legal</h3>
+            <p>Apoyo en gestiones legales y representación administrativa, con orientación profesional.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-legal">
+              <label for="srv-legal">Seleccionar este servicio</label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Nuevo servicio: Otros -->
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">➕</div>
+          <div class="service-content">
+            <h3>Otros Servicios</h3>
+            <p>¿Necesitas algo que no está en la lista? Descríbelo aquí y lo gestionaremos para ti.</p>
+            <div class="service-checkbox">
+              <input type="checkbox" id="srv-otros">
+              <label for="srv-otros">Seleccionar este servicio</label>
+            </div>
+            <textarea class="other-input" id="otros-desc" placeholder="Describe el servicio que necesitas..." rows="3"></textarea>
+            <div class="error-msg" id="otros-error">Por favor, describe el servicio que necesitas.</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+      
+      <div style="text-align: center; margin-top: 40px;">
+        <button class="cta-button" id="finalButton">
+          <span class="loading-spinner" id="loadingSpinner"></span>
+          Solicitar servicios seleccionados
+        </button>
+      </div>
+    </section>
 
-  <!-- Contact Section -->
-  <section class="section" id="contacto">
-    <div class="section-header">
-      <h2>Contacto</h2>
-      <p>Estamos disponibles para resolver tus dudas y atender tus solicitudes</p>
-    </div>
-    
-    <div class="contact-grid">
-      <div class="contact-card">
-        <div class="contact-icon">📱</div>
-        <h3>Teléfonos / WhatsApp</h3>
-        <div class="contact-info">
-          <p>+53 5554 2964</p>
-          <p>+53 5251 5251</p>
-        </div>
-        <!-- Menú de selección de WhatsApp -->
-        <div style="position: relative;">
-          <button class="whatsapp-button" id="whatsappBtn">
-            <i class="fab fa-whatsapp"></i> Contactar por WhatsApp
-          </button>
-          <div class="whatsapp-selector" id="whatsappSelector">
-            <a href="https://wa.me/5355542964" class="whatsapp-option" target="_blank">
-              <i class="fab fa-whatsapp"></i> +53 5554 2964
-            </a>
-            <a href="https://wa.me/5352515251" class="whatsapp-option" target="_blank">
-              <i class="fab fa-whatsapp"></i> +53 5251 5251
-            </a>
+    <!-- About Section -->
+    <section class="section" id="nosotros" style="background: var(--gris);">
+      <div class="about-content">
+        <div class="about-text">
+          <h2>Sobre Nosotros</h2>
+          <p>En <strong>TramiCuba</strong>, ofrecemos un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo, siempre con transparencia y eficiencia.</p>
+          <p>Nuestro equipo está formado por profesionales con amplia experiencia en trámites legales, administrativos y fiscales en Cuba.</p>
+          
+          <div class="values-grid">
+            <div class="value-item">
+              <div aria-hidden="true">✅</div>
+              <h4>Profesionalismo</h4>
+              <p>Expertos en cada trámite</p>
+            </div>
+            <div class="value-item">
+              <div aria-hidden="true">⚡</div>
+              <h4>Rapidez</h4>
+              <p>Gestión eficiente</p>
+            </div>
+            <div class="value-item">
+              <div aria-hidden="true">🔒</div>
+              <h4>Seguridad</h4>
+              <p>Datos protegidos</p>
+            </div>
+            <div class="value-item">
+              <div aria-hidden="true">💯</div>
+              <h4>Transparencia</h4>
+              <p>Sin costos ocultos</p>
+            </div>
           </div>
         </div>
       </div>
-      
-      <div class="contact-card">
-        <div class="contact-icon">✉️</div>
-        <h3>Correo Electrónico</h3>
-        <div class="contact-info">
-          <p>andyha97@nauta.cu</p>
-        </div>
-        <a href="mailto:andyha97@nauta.cu" class="cta-button">Enviar Correo</a>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contacto">
+      <div class="section-header">
+        <h2>Contacto</h2>
+        <p>Estamos disponibles para resolver tus dudas y atender tus solicitudes</p>
       </div>
       
-      <!-- Nuevo elemento de contacto con dirección -->
-      <div class="contact-card">
-        <div class="contact-icon">📍</div>
-        <h3>Dirección</h3>
-        <div class="contact-info">
-          <p>Calle 112 no.5918 e/ 59 y 51</p>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon" aria-hidden="true">📱</div>
+          <h3>Teléfonos / WhatsApp</h3>
+          <div class="contact-info">
+            <p>+53 5554 2964</p>
+            <p>+53 5251 5251</p>
+          </div>
+          <!-- Menú de selección de WhatsApp -->
+          <div style="position: relative;">
+            <button class="whatsapp-button" id="whatsappBtn">
+              <i class="fab fa-whatsapp" aria-hidden="true"></i> Contactar por WhatsApp
+            </button>
+            <div class="whatsapp-selector" id="whatsappSelector">
+              <a href="https://wa.me/5355542964" class="whatsapp-option" target="_blank">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i> +53 5554 2964
+              </a>
+              <a href="https://wa.me/5352515251" class="whatsapp-option" target="_blank">
+                <i class="fab fa-whatsapp" aria-hidden="true"></i> +53 5251 5251
+              </a>
+            </div>
+          </div>
         </div>
-        <a href="https://www.google.com/maps?q=23.074666,-82.425217" class="cta-button" target="_blank">Ver en Mapa</a>
+        
+        <div class="contact-card">
+          <div class="contact-icon" aria-hidden="true">✉️</div>
+          <h3>Correo Electrónico</h3>
+          <div class="contact-info">
+            <p>andyha97@nauta.cu</p>
+          </div>
+          <a href="mailto:andyha97@nauta.cu" class="cta-button">Enviar Correo</a>
+        </div>
+        
+        <!-- Nuevo elemento de contacto con dirección -->
+        <div class="contact-card">
+          <div class="contact-icon" aria-hidden="true">📍</div>
+          <h3>Dirección</h3>
+          <div class="contact-info">
+            <p>Calle 112 no.5918 e/ 59 y 51</p>
+          </div>
+          <a href="https://www.google.com/maps?q=23.074666,-82.425217" class="cta-button" target="_blank">Ver en Mapa</a>
+        </div>
+        
+        <div class="contact-card">
+          <div class="clock-container">
+            <div class="clock-face"></div>
+            <div class="clock-hour" id="clock-hour"></div>
+            <div class="clock-minute" id="clock-minute"></div>
+          </div>
+          <h3>Horario de Atención</h3>
+          <div class="contact-info">
+            <p>24 horas, los 7 días de la semana</p>
+            <span class="twenty-four-hours">Siempre disponibles</span>
+          </div>
+        </div>
       </div>
-      
-      <div class="contact-card">
-        <div class="clock-container">
-          <div class="clock-face"></div>
-          <div class="clock-hour" id="clock-hour"></div>
-          <div class="clock-minute" id="clock-minute"></div>
-          <div class="clock-second" id="clock-second"></div>
-        </div>
-        <h3>Horario de Atención</h3>
-        <div class="contact-info">
-          <p>24 horas, los 7 días de la semana</p>
-          <span class="twenty-four-hours">Siempre disponibles</span>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer>
@@ -1065,16 +1083,16 @@
         <p>Especialistas en trámites legales y administrativos para facilitar tus gestiones en Cuba.</p>
         <div class="social-links">
           <a href="#" class="social-link" aria-label="Facebook">
-            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-facebook-f" aria-hidden="true"></i>
           </a>
           <a href="#" class="social-link" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
           </a>
           <a href="#" class="social-link" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
+            <i class="fab fa-instagram" aria-hidden="true"></i>
           </a>
           <a href="#" class="social-link" aria-label="Twitter">
-            <i class="fab fa-twitter"></i>
+            <i class="fab fa-twitter" aria-hidden="true"></i>
           </a>
         </div>
       </div>
@@ -1113,15 +1131,15 @@
     </div>
     
     <div class="copyright">
-      <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Equipo TramiCuba</p> <!-- 12. Texto inconsistente -->
+      <p>&copy; 2025 TramiCuba. Todos los derechos reservados.</p>
     </div>
   </footer>
 
   <!-- Modal de Confirmación -->
-  <div class="modal" id="modalConfirm" aria-modal="true"> <!-- 8. Accesibilidad -->
+  <div class="modal" id="modalConfirm" aria-modal="true" role="dialog" aria-labelledby="modalTitle">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Confirmación de Servicios</h3>
+        <h3 id="modalTitle">Confirmación de Servicios</h3>
       </div>
       <div class="modal-body">
         <p>Has seleccionado los siguientes servicios:</p>
@@ -1141,10 +1159,10 @@
   </div>
 
   <!-- Modal de WhatsApp -->
-  <div class="modal" id="modalWhatsapp" aria-modal="true"> <!-- 8. Accesibilidad -->
+  <div class="modal" id="modalWhatsapp" aria-modal="true" role="dialog" aria-labelledby="wpModalTitle">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Contactar por WhatsApp</h3>
+        <h3 id="wpModalTitle">Contactar por WhatsApp</h3>
       </div>
       <div class="modal-body">
         <p>Selecciona el número por el que prefieres contactarnos:</p>
@@ -1185,7 +1203,7 @@
             
             // Close mobile menu if open
             nav.classList.remove('show');
-            mobileMenuBtn.setAttribute('aria-expanded', 'false'); // 4. Menú móvil cierra al seleccionar enlace
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
           }
         });
       });
@@ -1200,8 +1218,9 @@
       const listaServicios = document.getElementById('listaServicios');
       const noServicesMessage = document.getElementById('noServicesMessage');
       const confirmationText = document.getElementById('confirmationText');
+      const loadingSpinner = document.getElementById('loadingSpinner');
       
-      // Nuevos elementos para el servicio "Otros"
+      // Elementos para el servicio "Otros"
       const otrosCheckbox = document.getElementById('srv-otros');
       const otrosDesc = document.getElementById('otros-desc');
       const otrosError = document.getElementById('otros-error');
@@ -1213,6 +1232,13 @@
           otrosDesc.focus();
         } else {
           otrosDesc.style.display = 'none';
+          otrosError.style.display = 'none';
+        }
+      });
+      
+      // Validación en tiempo real para "Otros"
+      otrosDesc.addEventListener('input', function() {
+        if (this.value.trim() !== '') {
           otrosError.style.display = 'none';
         }
       });
@@ -1232,8 +1258,6 @@
           } else {
             otrosError.style.display = 'none';
           }
-        } else {
-          otrosError.style.display = 'none';
         }
         
         serviceCards.forEach(card => {
@@ -1284,18 +1308,29 @@
       });
       
       confirmarBtn.addEventListener('click', function() {
-        modalConfirm.classList.remove('open');
-        modalWhatsapp.classList.add('open');
+        // Mostrar spinner de carga
+        loadingSpinner.style.display = 'inline-block';
+        finalButton.disabled = true;
         
-        // 7. Feedback visual al enviar
-        Toastify({
-          text: "¡Solicitud enviada con éxito!",
-          duration: 3000,
-          backgroundColor: "var(--verde)",
-          className: "toastify-top toastify-right",
-          gravity: "top",
-          position: "right"
-        }).showToast();
+        // Simular proceso de envío
+        setTimeout(function() {
+          modalConfirm.classList.remove('open');
+          modalWhatsapp.classList.add('open');
+          
+          // Restaurar botón
+          loadingSpinner.style.display = 'none';
+          finalButton.disabled = false;
+          
+          // Mostrar feedback visual
+          Toastify({
+            text: "¡Solicitud enviada con éxito!",
+            duration: 3000,
+            backgroundColor: "var(--verde)",
+            className: "toastify-top toastify-right",
+            gravity: "top",
+            position: "right"
+          }).showToast();
+        }, 1500);
       });
       
       wpCloseBtn.addEventListener('click', function() {
@@ -1312,43 +1347,59 @@
         }
       });
       
-      // Service selection functionality - CORRECCIÓN DEL PROBLEMA 3
+      // Cerrar modales con tecla ESC
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          modalConfirm.classList.remove('open');
+          modalWhatsapp.classList.remove('open');
+          // Ocultar selector de WhatsApp
+          document.getElementById('whatsappSelector').style.display = 'none';
+        }
+      });
+      
+      // Service selection functionality
       const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
       serviceCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
+        // Permitir hacer clic en todo el contenedor del checkbox
+        const container = checkbox.closest('.service-checkbox');
+        container.addEventListener('click', function(e) {
+          if (e.target !== checkbox) {
+            checkbox.checked = !checkbox.checked;
+          }
+          
           const card = this.closest('.service-card');
-          if (this.checked) {
-            // 3. Comportamiento incorrecto en checkboxes (corregido)
+          if (checkbox.checked) {
             card.style.borderColor = 'var(--azul)';
             card.style.boxShadow = '0 10px 25px rgba(11, 61, 145, 0.3)';
           } else {
             card.style.borderColor = 'transparent';
             card.style.boxShadow = 'var(--sombra)';
           }
+          
+          // Disparar evento de cambio
+          const event = new Event('change');
+          checkbox.dispatchEvent(event);
         });
       });
       
-      // 10. Simplificar el reloj
+      // Reloj simplificado (solo actualiza cada minuto)
       function updateClock() {
         const now = new Date();
         const hours = now.getHours();
         const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
         
         const hourDeg = (hours % 12) * 30 + minutes * 0.5;
         const minuteDeg = minutes * 6;
-        const secondDeg = seconds * 6;
         
         document.getElementById('clock-hour').style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
         document.getElementById('clock-minute').style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
-        document.getElementById('clock-second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
       }
       
-      // Actualizar el reloj cada segundo
-      setInterval(updateClock, 1000);
+      // Actualizar el reloj cada minuto
+      setInterval(updateClock, 60000);
       updateClock(); // Inicializar inmediatamente
       
-      // 9. WhatsApp selector mejorable
+      // WhatsApp selector
       const whatsappBtn = document.getElementById('whatsappBtn');
       const whatsappSelector = document.getElementById('whatsappSelector');
       
@@ -1372,7 +1423,42 @@
           whatsappSelector.style.display = 'none';
         });
       });
+      
+      // Hacer selector accesible por teclado
+      whatsappSelector.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          this.style.display = 'none';
+        }
+      });
     });
+    
+    // Implementación simple de Toastify
+    function Toastify(options) {
+      const toast = document.createElement('div');
+      toast.className = `toastify ${options.className || ''} ${options.position || 'toastify-top'}`;
+      toast.innerHTML = options.text;
+      
+      if (options.duration) {
+        setTimeout(() => {
+          toast.remove();
+        }, options.duration);
+      }
+      
+      toast.addEventListener('click', function() {
+        this.remove();
+      });
+      
+      document.body.appendChild(toast);
+      
+      // Forzar reflow para activar animación
+      toast.offsetHeight;
+      
+      toast.classList.add('on');
+      
+      return {
+        showToast: () => {}
+      };
+    }
   </script>
 </body>
 </html>
