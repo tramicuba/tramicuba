@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestión de trámites legales en Cuba">
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -15,7 +17,7 @@
       --gris2: #f9f9f9;
       --texto: #333;
       --sombra: 0 4px 12px rgba(0,0,0,0.08);
-      --sombra-hover: 0 12px 30px rgba(11, 61, 145, 0.25);
+      --sombra-hover: 0 12px 30px rgba(11, 61, 145, 0.25); /* 1. Variable añadida */
     }
     
     * {
@@ -212,7 +214,9 @@
       position: relative;
       z-index: 1;
       transform: translateY(0) scale(1);
-      border: 2px solid transparent; /* Borde constante de 2px */
+      border: 2px solid transparent;
+      will-change: transform, box-shadow; /* 5. Optimización de animaciones */
+      backface-visibility: hidden; /* 5. Optimización de animaciones */
     }
     
     /* EFECTO DE MOVIMIENTO AL PASAR EL MOUSE */
@@ -303,6 +307,7 @@
       flex-wrap: wrap;
       gap: 40px;
       align-items: center;
+      overflow-x: hidden; /* 6. Layout roto en móviles */
     }
     
     .about-text {
@@ -526,6 +531,68 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.05); }
       100% { transform: scale(1); }
+    }
+    
+    /* Toastify styles */
+    .toastify {
+      padding: 12px 20px;
+      color: #fff;
+      display: inline-block;
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.12), 0 10px 36px -4px rgba(77, 96, 232, 0.3);
+      background: var(--verde);
+      position: fixed;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      max-width: calc(50% - 20px);
+      z-index: 2147483647;
+      font-weight: 500;
+    }
+    
+    .toastify.on {
+      opacity: 1;
+    }
+    
+    .toast-close {
+      opacity: 0.4;
+      padding: 0 5px;
+    }
+    
+    .toastify-right {
+      right: 15px;
+    }
+    
+    .toastify-left {
+      left: 15px;
+    }
+    
+    .toastify-top {
+      top: 15px;
+    }
+    
+    .toastify-bottom {
+      bottom: 15px;
+    }
+    
+    .toastify-rounded {
+      border-radius: 50px;
+    }
+    
+    .toastify-avatar {
+      width: 1.5em;
+      height: 1.5em;
+      margin: 0 5px;
+      border-radius: 50%;
+    }
+    
+    .toastify-center {
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
+      max-width: fit-content;
     }
     
     /* FOOTER */
@@ -779,7 +846,7 @@
       <a href="#contacto">Contacto</a>
     </nav>
     
-    <button class="mobile-menu-btn">☰</button>
+    <button class="mobile-menu-btn" aria-expanded="false">☰</button> <!-- 8. Accesibilidad -->
   </header>
 
   <!-- Hero Section -->
@@ -1046,12 +1113,12 @@
     </div>
     
     <div class="copyright">
-      <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Arty</p>
+      <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Equipo TramiCuba</p> <!-- 12. Texto inconsistente -->
     </div>
   </footer>
 
   <!-- Modal de Confirmación -->
-  <div class="modal" id="modalConfirm">
+  <div class="modal" id="modalConfirm" aria-modal="true"> <!-- 8. Accesibilidad -->
     <div class="modal-content">
       <div class="modal-header">
         <h3>Confirmación de Servicios</h3>
@@ -1074,7 +1141,7 @@
   </div>
 
   <!-- Modal de WhatsApp -->
-  <div class="modal" id="modalWhatsapp">
+  <div class="modal" id="modalWhatsapp" aria-modal="true"> <!-- 8. Accesibilidad -->
     <div class="modal-content">
       <div class="modal-header">
         <h3>Contactar por WhatsApp</h3>
@@ -1099,6 +1166,8 @@
       const nav = document.querySelector('nav');
       
       mobileMenuBtn.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
         nav.classList.toggle('show');
       });
       
@@ -1116,6 +1185,7 @@
             
             // Close mobile menu if open
             nav.classList.remove('show');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false'); // 4. Menú móvil cierra al seleccionar enlace
           }
         });
       });
@@ -1216,6 +1286,16 @@
       confirmarBtn.addEventListener('click', function() {
         modalConfirm.classList.remove('open');
         modalWhatsapp.classList.add('open');
+        
+        // 7. Feedback visual al enviar
+        Toastify({
+          text: "¡Solicitud enviada con éxito!",
+          duration: 3000,
+          backgroundColor: "var(--verde)",
+          className: "toastify-top toastify-right",
+          gravity: "top",
+          position: "right"
+        }).showToast();
       });
       
       wpCloseBtn.addEventListener('click', function() {
@@ -1238,21 +1318,17 @@
         checkbox.addEventListener('change', function() {
           const card = this.closest('.service-card');
           if (this.checked) {
-            // Mantenemos el mismo grosor de borde (2px) pero cambiamos el color
-            card.style.border = '2px solid var(--azul)';
+            // 3. Comportamiento incorrecto en checkboxes (corregido)
+            card.style.borderColor = 'var(--azul)';
             card.style.boxShadow = '0 10px 25px rgba(11, 61, 145, 0.3)';
           } else {
-            // Mantenemos el mismo grosor de borde (2px) con color transparente
-            card.style.border = '2px solid transparent';
+            card.style.borderColor = 'transparent';
             card.style.boxShadow = 'var(--sombra)';
           }
         });
       });
       
-      // SOLUCIÓN AL PROBLEMA 7: Optimización del reloj con requestAnimationFrame
-      let lastUpdateTime = 0;
-      let animationFrameId = null;
-      
+      // 10. Simplificar el reloj
       function updateClock() {
         const now = new Date();
         const hours = now.getHours();
@@ -1268,95 +1344,11 @@
         document.getElementById('clock-second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
       }
       
-      function animateClock(timestamp) {
-        if (!lastUpdateTime) lastUpdateTime = timestamp;
-        
-        const elapsed = timestamp - lastUpdateTime;
-        
-        // Actualizar solo si ha pasado al menos 1 segundo
-        if (elapsed >= 1000) {
-          updateClock();
-          lastUpdateTime = timestamp;
-        }
-        
-        // Continuar la animación solo si el reloj es visible
-        const clockCard = document.querySelector('.contact-card:nth-child(4)');
-        if (isElementInViewport(clockCard)) {
-          animationFrameId = requestAnimationFrame(animateClock);
-        }
-      }
+      // Actualizar el reloj cada segundo
+      setInterval(updateClock, 1000);
+      updateClock(); // Inicializar inmediatamente
       
-      // Función para verificar si un elemento es visible en el viewport
-      function isElementInViewport(el) {
-        if (!el) return false;
-        
-        const rect = el.getBoundingClientRect();
-        return (
-          rect.top >= 0 &&
-          rect.left >= 0 &&
-          rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-          rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-      }
-      
-      // Iniciar reloj cuando la sección de contacto es visible
-      const contactSection = document.getElementById('contacto');
-      
-      function checkClockVisibility() {
-        const clockCard = document.querySelector('.contact-card:nth-child(4)');
-        
-        if (isElementInViewport(clockCard)) {
-          // Iniciar animación si no está activa
-          if (!animationFrameId) {
-            animationFrameId = requestAnimationFrame(animateClock);
-          }
-        } else {
-          // Detener animación si está activa
-          if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-            animationFrameId = null;
-          }
-        }
-      }
-      
-      // Observador de intersección para optimizar aún más
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            if (!animationFrameId) {
-              updateClock(); // Actualizar inmediatamente
-              animationFrameId = requestAnimationFrame(animateClock);
-            }
-          } else {
-            if (animationFrameId) {
-              cancelAnimationFrame(animationFrameId);
-              animationFrameId = null;
-            }
-          }
-        });
-      });
-      
-      // Observar el contenedor del reloj
-      const clockContainer = document.querySelector('.clock-container');
-      if (clockContainer) {
-        observer.observe(clockContainer);
-      }
-      
-      // Iniciar el reloj si está visible al cargar la página
-      window.addEventListener('load', function() {
-        const clockCard = document.querySelector('.contact-card:nth-child(4)');
-        if (isElementInViewport(clockCard)) {
-          updateClock();
-          animationFrameId = requestAnimationFrame(animateClock);
-        }
-      });
-      
-      // Verificar visibilidad al desplazarse
-      window.addEventListener('scroll', function() {
-        checkClockVisibility();
-      });
-      
-      // SOLUCIÓN PARA EL PROBLEMA 9: Menú de selección de WhatsApp
+      // 9. WhatsApp selector mejorable
       const whatsappBtn = document.getElementById('whatsappBtn');
       const whatsappSelector = document.getElementById('whatsappSelector');
       
