@@ -216,7 +216,7 @@
       border: 2px solid transparent;
       will-change: transform, box-shadow;
       backface-visibility: hidden;
-      cursor: pointer; /* Cambio: cursor de puntero para indicar que es clickeable */
+      cursor: pointer;
     }
     
     /* Efecto de tarjeta seleccionada */
@@ -296,7 +296,7 @@
       font-size: 1rem;
       transition: border-color 0.3s;
       resize: vertical;
-      cursor: auto; /* Cambio: cursor normal para el textarea */
+      cursor: auto;
     }
     
     .other-input:focus {
@@ -1224,7 +1224,7 @@
         }
       });
       
-      // 1. Selección por clic en toda la tarjeta
+      // 1. Selección por clic en toda la tarjeta (incluyendo el texto)
       const serviceCards = document.querySelectorAll('.service-card');
       
       serviceCards.forEach(card => {
@@ -1255,6 +1255,19 @@
             } else {
               card.classList.remove('selected');
             }
+          }
+        });
+      });
+      
+      // 2. Manejar cambios en los checkboxes para actualizar estilo
+      const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
+      serviceCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          const card = this.closest('.service-card');
+          if (this.checked) {
+            card.classList.add('selected');
+          } else {
+            card.classList.remove('selected');
           }
         });
       });
@@ -1350,19 +1363,6 @@
         if (e.target === modalWhatsapp) {
           modalWhatsapp.classList.remove('open');
         }
-      });
-      
-      // Service selection functionality - Actualizado para reflejar selección visual
-      const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
-      serviceCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-          const card = this.closest('.service-card');
-          if (this.checked) {
-            card.classList.add('selected');
-          } else {
-            card.classList.remove('selected');
-          }
-        });
       });
       
       // 10. Simplificar el reloj
