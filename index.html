@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Gestión de trámites legales en Cuba">
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
+  
+  <!-- Manifest PWA (simulado en línea) -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRyYW1pQ3ViYSIsCiAgInNob3J0X25hbWUiOiAiVHJhbWlDdWJhIiwKICAiZGVzY3JpcHRpb24iOiAiR2VzdGnDs24gZGUgdHLDoW1pdGVzIGxlZ2FsZXMgZW4gQ3ViYSIsCiAgInN0YXJ0X3VybCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIzZDkxIiwKICAidGhlbWVfY29sb3IiOiAiIzBiM2Q5MSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQzBBQUFBdENBWUFBQUFBRVd6b2FBQUFBQkhOQ1NWUUlDQWdJZkFoa2lBQUFBQ1hCSVdYTUFBQURzQUFBQTdDQVlJN3dBQUFBY0VKbGxuQUFBQUFBRWxGVGtTdVFtQ0FBQUNnQUFBQWdBQVlkcEFBQUFCd0FBQUFJQUFZOXRBQUFBR2dBQUFBSUFBQkF2d0FBQUFBQUFBT3dBQUFHZ0FBQUFRQUFBRDZBQUFBQUFBQUF3QUFBQWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+  
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
       --azul: #0b3d91;
@@ -37,6 +42,7 @@
       color: var(--texto);
       position: relative;
       min-height: 100vh;
+      padding-bottom: 60px; /* Espacio para el botón PWA */
     }
     
     a { 
@@ -48,6 +54,38 @@
     a:focus, button:focus, input:focus { 
       outline: 3px solid #98c1ff; 
       outline-offset: 2px; 
+    }
+    
+    /* Botón de Instalación PWA */
+    .install-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: var(--verde);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      cursor: pointer;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .install-btn.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .install-btn:hover {
+      background: #1e6b2e;
+      transform: translateY(-3px);
     }
     
     /* HEADER */
@@ -815,6 +853,13 @@
       .clock-second {
         height: 36px;
       }
+      
+      .install-btn {
+        bottom: 70px;
+        right: 15px;
+        font-size: 0.9rem;
+        padding: 10px 15px;
+      }
     }
     
     @media (max-width: 480px) {
@@ -845,6 +890,11 @@
   </style>
 </head>
 <body>
+  <!-- Botón de instalación PWA -->
+  <button id="installButton" class="install-btn">
+    <i class="fas fa-download"></i> Instalar App
+  </button>
+  
   <!-- Header -->
   <header>
     <div class="logo-container">
@@ -1177,6 +1227,52 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // =========================================
+      // Código para PWA
+      // =========================================
+      let deferredPrompt;
+      const installButton = document.getElementById('installButton');
+      
+      // Mostrar el botón de instalación cuando sea posible
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installButton.classList.add('show');
+      });
+      
+      // Manejar la instalación
+      installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          Toastify({
+            text: "¡Aplicación instalada con éxito!",
+            duration: 3000,
+            backgroundColor: "var(--verde)",
+            className: "toastify-top toastify-center",
+            gravity: "top"
+          }).showToast();
+        }
+        deferredPrompt = null;
+        installButton.classList.remove('show');
+      });
+      
+      // Ocultar el botón si la app ya está instalada
+      window.addEventListener('appinstalled', () => {
+        installButton.classList.remove('show');
+        deferredPrompt = null;
+      });
+      
+      // Comprobar si la app ya está instalada
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        installButton.style.display = 'none';
+      }
+      
+      // =========================================
+      // Código original de la aplicación
+      // =========================================
+      
       // Mobile menu toggle
       const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
       const nav = document.querySelector('nav');
@@ -1389,7 +1485,7 @@
         }
       });
       
-      // 10. Simplificar el reloj y limpiar intervalo
+      // Reloj animado
       let clockInterval = null;
       
       function updateClock() {
@@ -1411,12 +1507,7 @@
       clockInterval = setInterval(updateClock, 1000);
       updateClock(); // Inicializar inmediatamente
       
-      // Limpiar intervalo al salir de la página
-      window.addEventListener('beforeunload', () => {
-        if (clockInterval) clearInterval(clockInterval);
-      });
-      
-      // 9. WhatsApp selector mejorable
+      // WhatsApp selector
       const whatsappBtn = document.getElementById('whatsappBtn');
       const whatsappSelector = document.getElementById('whatsappSelector');
       
@@ -1440,6 +1531,30 @@
           whatsappSelector.style.display = 'none';
         });
       });
+      
+      // Función Toastify (para notificaciones)
+      function Toastify(options) {
+        const toast = document.createElement('div');
+        toast.className = `toastify ${options.className || ''} ${options.position || 'toastify-top'} ${options.gravity || ''}`;
+        toast.innerHTML = options.text;
+        toast.style.cssText = `background: ${options.backgroundColor};`;
+        document.body.appendChild(toast);
+        
+        setTimeout(() => {
+          toast.classList.add('on');
+        }, 100);
+        
+        setTimeout(() => {
+          toast.classList.remove('on');
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 400);
+        }, options.duration || 3000);
+        
+        return {
+          showToast: () => {}
+        };
+      }
     });
   </script>
 </body>
