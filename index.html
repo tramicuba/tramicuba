@@ -5,35 +5,97 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Gestión de trámites legales en Cuba">
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
-  <link rel="manifest" href="manifest.json">
+  
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlRyYW1pQ3ViYSIsCiAgInNob3J0X25hbWUiOiAiVHJhbWlDdWJhIiwKICAiZGVzY3JpcHRpb24iOiAiR2VzdGnDs24gZGUgdHLDoW1pdGVzIGxlZ2FsZXMgZW4gQ3ViYSIsCiAgInN0YXJ0X3VybCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjMGIzZDkxIiwKICAidGhlbWVfY29sb3IiOiAiIzBiM2Q5MSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBQzBBQUFBdENBWUFBQUFBRVd6b2FBQUFBQkhOQ1NWUUlDQWdJZkFoa2lBQUFBQ1hCSVdYTUFBQURzQUFBQTdDQVlJN3dBQUFBY0VKbGxuQUFBQUFBRWxGVGtTdVFtQ0FBQUNnQUFBQWdBQVlkcEFBQUFCd0FBQUFJQUFZOXRBQUFBR2dBQUFBSUFBQkF2d0FBQUFBQUFBT3dBQUFHZ0FBQUFRQUFBRDZBQUFBQUFBQUF3QUFBQWdBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUEiLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+  
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Botón PWA -->
+  <!-- Botón de instalación PWA -->
   <button id="installButton" class="install-btn">
     <i class="fas fa-download"></i> Instalar App
   </button>
-
+  
   <!-- Header -->
-  <header id="header"></header>
+  <header>
+    <div class="logo-container">
+      <a href="#inicio" class="logo-link" aria-label="Inicio">
+        <div class="logo-icon" aria-hidden="true">??</div>
+      </a>
+      <h1>TramiCuba</h1>
+    </div>
+    
+    <nav>
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    
+    <button class="mobile-menu-btn" aria-expanded="false" aria-label="Menú principal">?</button>
+  </header>
 
-  <!-- Contenido principal -->
-  <main>
-    <section id="inicio" class="hero"></section>
-    <section id="servicios" class="section"></section>
-    <section id="nosotros" class="section"></section>
-    <section id="contacto" class="section"></section>
-  </main>
+  <!-- Hero Section -->
+  <section class="hero" id="inicio" aria-labelledby="hero-heading">
+    <h2 id="hero-heading">Ahorrar tu tiempo es nuestra prioridad</h2>
+    <p>Trámites fáciles, rápidos y seguros en Cuba</p>
+    <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section" id="servicios" aria-labelledby="servicios-heading">
+    <div class="section-header">
+      <h2 id="servicios-heading">Nuestros Servicios</h2>
+      <p>Selecciona los servicios que necesitas para agilizar tus trámites</p>
+    </div>
+    
+    <div class="services-grid">
+      <!-- Tarjetas de servicios... -->
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <button class="cta-button" id="finalButton">Solicitar servicios seleccionados</button>
+      <div id="global-error" style="display: none; color: var(--rojo); margin-top: 15px; font-weight: 500;"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section" id="nosotros" style="background: var(--gris);" aria-labelledby="nosotros-heading">
+    <div class="about-content">
+      <!-- Contenido sobre nosotros... -->
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contacto" aria-labelledby="contacto-heading">
+    <div class="section-header">
+      <h2 id="contacto-heading">Contacto</h2>
+      <p>Estamos disponibles para resolver tus dudas y atender tus solicitudes</p>
+    </div>
+    
+    <div class="contact-grid">
+      <!-- Tarjetas de contacto... -->
+    </div>
+  </section>
 
   <!-- Footer -->
-  <footer id="footer"></footer>
+  <footer>
+    <!-- Contenido del footer... -->
+  </footer>
 
-  <!-- Modales -->
-  <div id="modalConfirm" class="modal"></div>
-  <div id="modalWhatsapp" class="modal"></div>
+  <!-- Modal de Confirmación -->
+  <div class="modal" id="modalConfirm" aria-modal="true" role="dialog" aria-labelledby="modalConfirmTitle">
+    <!-- Contenido del modal... -->
+  </div>
 
-  <!-- Scripts -->
-  <script src="assets/js/main.js" type="module"></script>
+  <!-- Modal de WhatsApp -->
+  <div class="modal" id="modalWhatsapp" aria-modal="true" role="dialog" aria-labelledby="modalWhatsappTitle">
+    <!-- Contenido del modal... -->
+  </div>
+
+  <script src="app.js"></script>
 </body>
-</html> 
+</html>
