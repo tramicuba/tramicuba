@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
   // =========================
+  // REGISTRO DEL SERVICE WORKER
+  // =========================
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('? Service Worker registrado'))
+      .catch(err => console.error('? Error al registrar el Service Worker:', err));
+  }
+
+  // =========================
   // INSTALACIÓN PWA
   // =========================
   let deferredPrompt;
@@ -8,27 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
-    installButton.classList.add('show');
+    installButton?.classList.add('show');
   });
 
-  installButton.addEventListener('click', async () => {
+  installButton?.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      showToast("¡Aplicación instalada con éxito!");
-    }
+    if (outcome === 'accepted') showToast("¡Aplicación instalada con éxito!");
     deferredPrompt = null;
     installButton.classList.remove('show');
   });
 
   window.addEventListener('appinstalled', () => {
-    installButton.classList.remove('show');
+    installButton?.classList.remove('show');
     deferredPrompt = null;
   });
 
-  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-    installButton.style.display = 'none';
+  if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+    installButton?.style.setProperty('display', 'none');
   }
 
   // =========================
@@ -37,10 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
   const nav = document.querySelector('nav');
 
-  mobileMenuBtn.addEventListener('click', () => {
+  mobileMenuBtn?.addEventListener('click', () => {
     const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
     mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-    nav.classList.toggle('show');
+    nav?.classList.toggle('show');
   });
 
   // =========================
@@ -52,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {
         window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
-        nav.classList.remove('show');
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        nav?.classList.remove('show');
+        mobileMenuBtn?.setAttribute('aria-expanded', 'false');
       }
     });
   });
@@ -62,30 +69,25 @@ document.addEventListener('DOMContentLoaded', () => {
   // TARJETAS DE SERVICIO
   // =========================
   const serviceCards = document.querySelectorAll('.service-card');
-  const serviceCheckboxes = document.querySelectorAll('.service-checkbox input');
   const otrosCheckbox = document.getElementById('srv-otros');
   const otrosDesc = document.getElementById('otros-desc');
   const otrosError = document.getElementById('otros-error');
 
   serviceCards.forEach(card => {
+    const checkbox = card.querySelector('input[type="checkbox"]');
     const textarea = card.querySelector('.other-input');
-    if (textarea) {
-      textarea.addEventListener('click', e => e.stopPropagation());
-    }
+
+    if (textarea) textarea.addEventListener('click', e => e.stopPropagation());
 
     card.addEventListener('click', e => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-      const checkbox = card.querySelector('input[type="checkbox"]');
       if (checkbox) {
         checkbox.checked = !checkbox.checked;
         checkbox.dispatchEvent(new Event('change'));
       }
     });
-  });
 
-  serviceCheckboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-      const card = checkbox.closest('.service-card');
+    checkbox?.addEventListener('change', () => {
       card.classList.toggle('selected', checkbox.checked);
       if (checkbox === otrosCheckbox) {
         otrosDesc.style.display = checkbox.checked ? 'block' : 'none';
@@ -108,13 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const confirmationText = document.getElementById('confirmationText');
   const globalError = document.getElementById('global-error');
 
-  finalButton.addEventListener('click', () => {
+  finalButton?.addEventListener('click', () => {
     globalError.style.display = 'none';
     globalError.textContent = '';
     const selectedServices = [];
     let otrosValid = true;
 
-    if (otrosCheckbox.checked) {
+    if (otrosCheckbox?.checked) {
       const desc = otrosDesc.value.trim();
       if (desc.length < 5) {
         otrosValid = false;
@@ -130,9 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     serviceCards.forEach(card => {
       const checkbox = card.querySelector('input[type="checkbox"]');
-      if (checkbox.checked) {
-        const serviceName = card.querySelector('.service-content h3').textContent;
-        selectedServices.push(serviceName);
+      if (checkbox?.checked) {
+        const serviceName = card.querySelector('.service-content h3')?.textContent;
+        if (serviceName) {
+          if (serviceName === "Otros Servicios") {
+            const sanitizedText = otrosDesc.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            selectedServices.push(`Otros: ${sanitizedText}`);
+          } else {
+            selectedServices.push(serviceName);
+          }
+        }
       }
     });
 
@@ -145,77 +154,26 @@ document.addEventListener('DOMContentLoaded', () => {
     listaServicios.innerHTML = '';
     selectedServices.forEach(service => {
       const li = document.createElement('li');
-      if (service === "Otros Servicios") {
-        const sanitizedText = otrosDesc.value.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        li.innerHTML = `Otros: ${sanitizedText}`;
-      } else {
-        li.textContent = service;
-      }
+      li.innerHTML = service;
       listaServicios.appendChild(li);
     });
 
     noServicesMessage.style.display = 'none';
     confirmationText.style.display = 'block';
-    modalConfirm.classList.add('open');
+    modalConfirm?.classList.add('open');
   });
 
-  cancelarBtn.addEventListener('click', () => {
-    modalConfirm.classList.remove('open');
-  });
-
-  confirmarBtn.addEventListener('click', () => {
-    modalConfirm.classList.remove('open');
-    modalWhatsapp.classList.add('open');
+  cancelarBtn?.addEventListener('click', () => modalConfirm?.classList.remove('open'));
+  confirmarBtn?.addEventListener('click', () => {
+    modalConfirm?.classList.remove('open');
+    modalWhatsapp?.classList.add('open');
     showToast("¡Solicitud enviada con éxito!");
   });
-
-  wpCloseBtn.addEventListener('click', () => {
-    modalWhatsapp.classList.remove('open');
-  });
+  wpCloseBtn?.addEventListener('click', () => modalWhatsapp?.classList.remove('open'));
 
   window.addEventListener('click', e => {
-    if (e.target === modalConfirm) modalConfirm.classList.remove('open');
-    if (e.target === modalWhatsapp) modalWhatsapp.classList.remove('open');
-  });
-
-  // =========================
-  // RELOJ ANIMADO
-  // =========================
-  function updateClock() {
-    const now = new Date();
-    const hourDeg = (now.getHours() % 12) * 30 + now.getMinutes() * 0.5;
-    const minuteDeg = now.getMinutes() * 6;
-    const secondDeg = now.getSeconds() * 6;
-
-    document.getElementById('clock-hour').style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
-    document.getElementById('clock-minute').style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
-    document.getElementById('clock-second').style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
-  }
-
-  setInterval(updateClock, 1000);
-  updateClock();
-
-  // =========================
-  // SELECTOR WHATSAPP
-  // =========================
-  const whatsappBtn = document.getElementById('whatsappBtn');
-  const whatsappSelector = document.getElementById('whatsappSelector');
-
-  whatsappBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    whatsappSelector.style.display = whatsappSelector.style.display === 'block' ? 'none' : 'block';
-  });
-
-  document.addEventListener('click', e => {
-    if (!whatsappSelector.contains(e.target) && e.target !== whatsappBtn) {
-      whatsappSelector.style.display = 'none';
-    }
-  });
-
-  document.querySelectorAll('.whatsapp-option').forEach(option => {
-    option.addEventListener('click', () => {
-      whatsappSelector.style.display = 'none';
-    });
+    if (e.target === modalConfirm) modalConfirm?.classList.remove('open');
+    if (e.target === modalWhatsapp) modalWhatsapp?.classList.remove('open');
   });
 
   // =========================
