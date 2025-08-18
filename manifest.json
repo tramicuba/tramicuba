@@ -2,12 +2,12 @@
   "name": "TramiCuba",
   "short_name": "TramiCuba",
   "description": "Gestión de trámites legales en Cuba",
-  "start_url": "/",
+  "start_url": "/tramicuba/",
+  "scope": "/tramicuba/",
   "display": "standalone",
   "background_color": "#0b3d91",
   "theme_color": "#0b3d91",
   "orientation": "portrait",
-  "scope": "/",
   "icons": [
     {
       "src": "assets/icon.png",

@@ -7,27 +7,20 @@
   <meta name="description" content="Gestión de trámites legales en Cuba" />
   <title>TramiCuba - Ahorrar tu tiempo es nuestra prioridad</title>
 
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="assets/icon.png" />
-
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- Botón de instalación PWA -->
-  <button id="installButton" class="install-btn">
+  <button id="installButton" class="install-btn" aria-label="Instalar aplicación">
     <i class="fas fa-download"></i> Instalar App
   </button>
 
-  <!-- Encabezado -->
   <header>
     <div class="logo-container">
       <a href="#inicio" class="logo-link" aria-label="Inicio">
-        <div class="logo-icon" aria-hidden="true">📋</div>
+        <div class="logo-icon">📋</div>
       </a>
       <h1>TramiCuba</h1>
     </div>
@@ -40,104 +33,112 @@
     <button class="mobile-menu-btn" aria-expanded="false" aria-label="Menú principal">☰</button>
   </header>
 
-  <!-- Sección Hero -->
-  <section class="hero" id="inicio" aria-labelledby="hero-heading">
-    <h2 id="hero-heading">Ahorrar tu tiempo es nuestra prioridad</h2>
+  <section class="hero" id="inicio">
+    <h2>Ahorrar tu tiempo es nuestra prioridad</h2>
     <p>Trámites fáciles, rápidos y seguros en Cuba</p>
     <a href="#servicios" class="cta-button">Ver nuestros servicios</a>
   </section>
 
-  <!-- Sección Servicios -->
-  <section class="section" id="servicios" aria-labelledby="servicios-heading">
+  <section class="section" id="servicios">
     <div class="section-header">
-      <h2 id="servicios-heading">Nuestros Servicios</h2>
+      <h2>Nuestros Servicios</h2>
       <p>Selecciona los servicios que necesitas para agilizar tus trámites</p>
     </div>
     <div class="services-grid">
-      <!-- Tarjetas de servicio (6 estándar + 1 personalizada) -->
-    </div>
-    <div style="text-align: center; margin-top: 40px;">
-      <button class="cta-button" id="finalButton">Solicitar servicios seleccionados</button>
-      <div id="global-error" style="display: none; color: var(--rojo); margin-top: 15px; font-weight: 500;"></div>
-    </div>
-  </section>
+      <!-- Tarjetas de ejemplo -->
+      <div class="service-card">
+        <div class="service-icon">📄</div>
+        <div class="service-content">
+          <h3>Legalización de documentos</h3>
+          <p>Gestión rápida y segura de legalizaciones en Cuba.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv1" />
+            <label for="srv1">Seleccionar</label>
+          </div>
+        </div>
+      </div>
 
-  <!-- Sección Nosotros -->
-  <section class="section" id="nosotros" style="background: var(--gris);" aria-labelledby="nosotros-heading">
-    <div class="about-content">
-      <div class="about-text">
-        <h2 id="nosotros-heading">Sobre Nosotros</h2>
-        <p><strong>TramiCuba</strong> ofrece un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo.</p>
-        <p>Contamos con profesionales expertos en trámites legales, administrativos y fiscales en Cuba.</p>
-        <div class="values-grid">
-          <!-- Valores institucionales -->
+      <div class="service-card">
+        <div class="service-icon">📝</div>
+        <div class="service-content">
+          <h3>Trámites notariales</h3>
+          <p>Asesoría y ejecución de trámites ante notaría.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv2" />
+            <label for="srv2">Seleccionar</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Otros servicios personalizados -->
+      <div class="service-card">
+        <div class="service-icon">🔧</div>
+        <div class="service-content">
+          <h3>Otros Servicios</h3>
+          <p>Describe el servicio que necesitas.</p>
+          <div class="service-checkbox">
+            <input type="checkbox" id="srv-otros" />
+            <label for="srv-otros">Seleccionar</label>
+          </div>
+          <textarea id="otros-desc" class="other-input" placeholder="Describe tu solicitud..."></textarea>
+          <div id="otros-error" class="error-msg">Descripción mínima de 5 caracteres.</div>
         </div>
       </div>
     </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <button class="cta-button" id="finalButton">Solicitar servicios seleccionados</button>
+      <div id="global-error" class="error-msg" style="display: none;"></div>
+    </div>
   </section>
 
-  <!-- Sección Contacto -->
-  <section class="section" id="contacto" aria-labelledby="contacto-heading">
+  <section class="section" id="nosotros" style="background: var(--gris);">
+    <div class="about-content">
+      <h2>Sobre Nosotros</h2>
+      <p><strong>TramiCuba</strong> ofrece un servicio profesional, rápido y confiable. Nos encargamos de que tus trámites se realicen sin estrés ni pérdida de tiempo.</p>
+    </div>
+  </section>
+
+  <section class="section" id="contacto">
     <div class="section-header">
-      <h2 id="contacto-heading">Contacto</h2>
+      <h2>Contacto</h2>
       <p>Estamos disponibles para resolver tus dudas y atender tus solicitudes</p>
     </div>
     <div class="contact-grid">
-      <!-- Tarjetas de contacto -->
+      <div class="contact-card">
+        <p>WhatsApp: <a href="https://wa.me/5355542964">+53 5554 2964</a></p>
+        <p>Correo: contacto@tramicuba.com</p>
+      </div>
     </div>
   </section>
 
-  <!-- Pie de página -->
   <footer>
     <div class="footer-content">
-      <!-- Columnas: TramiCuba, Enlaces, Servicios, Contacto -->
-    </div>
-    <div class="copyright">
-      <p>&copy; 2025 TramiCuba. Todos los derechos reservados. Equipo TramiCuba</p>
+      <p>&copy; 2025 TramiCuba. Todos los derechos reservados.</p>
     </div>
   </footer>
 
-  <!-- Modal de Confirmación -->
-  <div class="modal" id="modalConfirm" aria-modal="true" role="dialog" aria-labelledby="modalConfirmTitle">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modalConfirmTitle">Confirmación de Servicios</h3>
-      </div>
-      <div class="modal-body">
-        <p>Has seleccionado los siguientes servicios:</p>
-        <ul id="listaServicios" style="margin: 20px 0; padding-left: 20px;"></ul>
-        <p id="noServicesMessage" style="display: none; color: #c1121f; font-weight: 500;">
-          Por favor, selecciona al menos un servicio antes de continuar.
-        </p>
-        <p id="confirmationText">¿Deseas continuar con la solicitud de estos servicios?</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="cancelarBtn">Cancelar</button>
-        <button class="btn btn-primary" id="confirmarBtn">Confirmar</button>
-      </div>
+  <!-- Modales -->
+  <div class="modal" id="modalConfirm">
+    <div class="modal-content" tabindex="-1">
+      <h3>Confirmación de Servicios</h3>
+      <ul id="listaServicios"></ul>
+      <p id="noServicesMessage" style="display:none;">Selecciona al menos un servicio.</p>
+      <p id="confirmationText">¿Deseas continuar con la solicitud?</p>
+      <button id="cancelarBtn">Cancelar</button>
+      <button id="confirmarBtn">Confirmar</button>
     </div>
   </div>
 
-  <!-- Modal WhatsApp -->
-  <div class="modal" id="modalWhatsapp" aria-modal="true" role="dialog" aria-labelledby="modalWhatsappTitle">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modalWhatsappTitle">Contactar por WhatsApp</h3>
-      </div>
-      <div class="modal-body">
-        <p>Selecciona el número por el que prefieres contactarnos:</p>
-        <div style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
-          <a href="https://wa.me/5355542964" class="whatsapp-button" target="_blank">+53 5554 2964</a>
-          <a href="https://wa.me/5352515251" class="whatsapp-button" target="_blank">+53 5251 5251</a>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="wpCloseBtn">Cerrar</button>
-      </div>
+  <div class="modal" id="modalWhatsapp">
+    <div class="modal-content" tabindex="-1">
+      <h3>Contactar por WhatsApp</h3>
+      <a href="https://wa.me/5355542964" class="whatsapp-button">+53 5554 2964</a>
+      <a href="https://wa.me/5352515251" class="whatsapp-button">+53 5251 5251</a>
+      <button id="wpCloseBtn">Cerrar</button>
     </div>
   </div>
 
-  <!-- Lógica JS -->
   <script src="js/main.js"></script>
 </body>
 </html>
